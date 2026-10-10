@@ -2,6 +2,12 @@
 
 Repositório completo do projeto **"QUEM DISSE E QUEM FEZ? — Lula vs Flávio"**: jogo de flashcards do 2º turno das eleições 2026 (25 de outubro), feito para virar voto — com declaração de voto antes/depois, parte educativa sobre a história do voto, e **toda resposta com fonte**.
 
+## Links
+
+- 🔴 **APP NO AR**: https://courameneses1-dotcom.github.io/quem-disse-o-que-disse-e-quem-fez-e-nao/
+- 📦 **Repositório**: https://github.com/courameneses1-dotcom/quem-disse-o-que-disse-e-quem-fez-e-nao
+- O app publicado vem da branch `gh-pages` (espelho de `outputs/app`). Para atualizar o site após mudar o app: `git push origin main` e depois `git subtree push --prefix=outputs/app origin gh-pages`.
+
 ## Estrutura
 
 ```
