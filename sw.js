@@ -1,6 +1,6 @@
 /* QUEM DISSE E QUEM FEZ? — service worker
    HTML: network-first (atualizações aparecem sempre) · demais assets: cache-first (offline) */
-const CACHE = 'quem-disse-v4';
+const CACHE = 'quem-disse-v5';
 const ASSETS = [
   './',
   './index.html',
