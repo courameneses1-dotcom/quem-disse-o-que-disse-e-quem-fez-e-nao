@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>QUEM DISSE E QUEM FEZ? — Lula vs Flávio</title>
+<meta name="description" content="O jogo das frases e dos fatos do 2º turno. Quem disse? Quem fez? Cada resposta tem fonte — confira você mesmo.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#141414">
+<style>
+  :root{
+    --bg:#141414; --card:#1e1e1e; --line:#333;
+    --red:#d61317; --red2:#ff3a3f; --yellow:#ffd100;
+    --blue:#0b66c2; --blue2:#2b8bef;
+    --green:#16a34a; --okbg:#0f2e1a;
+    --redbad:#7f1d1d; --badbg:#2e0f0f;
+    --ink:#f5f5f5; --mut:#9a9a9a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; flex-direction:column; align-items:center;
+    min-height:100dvh;
+  }
+  .wrap{width:100%;max-width:560px;padding:16px 14px 28px;display:flex;flex-direction:column;flex:1}
+  /* ---------- HOME ---------- */
+  .logo{margin:26px 0 6px;text-align:center}
+  .logo .q{font-size:clamp(34px,10vw,58px);font-weight:900;letter-spacing:-1.5px;line-height:1.02}
+  .logo .q b{color:var(--red2)}
+  .logo .q .l2{display:block;font-size:.78em;color:var(--yellow);letter-spacing:0}
+  .logo .qm{color:var(--yellow)}
+  .logo .vs{margin-top:10px;font-size:15px;font-weight:800;letter-spacing:.5px}
+  .logo .vs .f{color:var(--blue2)} .logo .vs .l{color:var(--red2)} .logo .vs .x{color:var(--mut)}
+  .logo .sub{color:var(--mut);font-size:13px;margin-top:6px}
+  .badge{
+    margin:18px auto 0;display:inline-flex;align-items:center;gap:8px;
+    background:#232323;border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;font-size:12.5px;color:#ddd;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .card-home{
+    margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 18px;
+  }
+  .card-home label{display:block;font-size:13px;font-weight:700;color:var(--mut);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+  .card-home input{
+    width:100%;padding:14px 16px;font-size:18px;border-radius:12px;border:1px solid var(--line);
+    background:#141414;color:var(--ink);outline:none;
+  }
+  .card-home input:focus{border-color:var(--yellow)}
+  .btn-main{
+    width:100%;margin-top:16px;padding:16px;font-size:20px;font-weight:900;letter-spacing:.5px;
+    background:linear-gradient(180deg,var(--red2),var(--red));color:#fff;border:none;border-radius:12px;cursor:pointer;
+    transition:transform .06s ease;
+  }
+  .btn-main:active{transform:scale(.98)}
+  .modes{margin-top:14px;display:flex;gap:8px}
+  .modes span{flex:1;text-align:center;font-size:11.5px;color:var(--mut);border:1px dashed var(--line);border-radius:10px;padding:8px 4px}
+  .foot{margin-top:auto;padding-top:26px;text-align:center;font-size:11.5px;color:#777;line-height:1.5}
+  .foot a{color:var(--yellow)}
+  .rec{margin-top:12px;text-align:center;color:var(--mut);font-size:13px}
+  .rec b{color:var(--ink)}
+  /* ---------- GAME ---------- */
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .top .who{font-size:14px;font-weight:800}
+  .top .who b{color:var(--yellow)}
+  .top .score{margin-left:auto;font-size:13px;color:var(--mut);font-weight:700}
+  .top .score b{color:var(--ink);font-size:16px}
+  .prog{height:6px;background:#262626;border-radius:99px;overflow:hidden;margin-bottom:18px}
+  .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow));width:0;transition:width .3s ease}
+  .stage{
+    position:relative;flex:1;display:flex;flex-direction:column;
+  }
+  .qcard{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 20px;
+    animation:pop .28s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  .qtag{display:inline-block;font-size:11px;font-weight:900;letter-spacing:2px;color:#111;background:var(--yellow);
+    border-radius:6px;padding:4px 9px;margin-bottom:14px}
+  .qtag.fato{background:var(--blue2)} .qtag.desafio{background:var(--red2);color:#fff}
+  .qtext{font-size:clamp(19px,5.2vw,24px);font-weight:800;line-height:1.35}
+  .qtext .aspis{color:var(--yellow)}
+  .opts{display:grid;gap:12px;margin-top:22px}
+  .opt{
+    padding:16px;font-size:18px;font-weight:900;border:none;border-radius:12px;cursor:pointer;color:#fff;
+    transition:transform .06s ease, opacity .2s;
+  }
+  .opt:active{transform:scale(.98)}
+  .opt.flavio{background:linear-gradient(180deg,var(--blue2),var(--blue))}
+  .opt.lula{background:linear-gradient(180deg,var(--red2),var(--red))}
+  .opt.small{font-size:15.5px;font-weight:700;background:#2c2c2c;padding:14px}
+  .opt[disabled]{cursor:default}
+  .opt.dim{opacity:.35}
+  .opt.correct{outline:3px solid var(--green);outline-offset:2px}
+  .opt.wrong{outline:3px solid var(--red2);outline-offset:2px}
+  /* feedback */
+  .fb{margin-top:14px;border-radius:14px;padding:16px 16px 14px;animation:pop .25s ease}
+  .fb.ok{background:var(--okbg);border:1px solid var(--green)}
+  .fb.no{background:var(--badbg);border:1px solid var(--red2)}
+  .fb .verdict{font-size:15px;font-weight:900;letter-spacing:.5px}
+  .fb.ok .verdict{color:#4ade80}.fb.no .verdict{color:#ff6b6e}
+  .fb .answer{font-size:19px;font-weight:900;margin:4px 0 8px}
+  .fb .answer.lula{color:var(--red2)} .fb .answer.flavio{color:var(--blue2)}
+  .fb p{font-size:14.5px;line-height:1.5;color:#e6e6e6}
+  .fb .src{margin-top:12px;font-size:12.5px;color:var(--mut);line-height:1.45}
+  .fb .src a{color:var(--yellow);font-weight:700;text-decoration:none}
+  .btn-next{
+    margin-top:16px;width:100%;padding:14px;font-size:16px;font-weight:900;
+    background:var(--yellow);color:#111;border:none;border-radius:12px;cursor:pointer;
+  }
+  .btn-next:active{transform:scale(.98)}
+  /* ---------- RESULT ---------- */
+  .res{flex:1;display:flex;flex-direction:column;text-align:center}
+  .res .big{font-size:clamp(52px,16vw,84px);font-weight:900;margin-top:16px}
+  .res .big b{color:var(--yellow)}
+  .res .title{font-size:22px;font-weight:900;margin-top:4px}
+  .res .msg{color:var(--mut);font-size:15px;margin-top:8px;line-height:1.5}
+  .stats{margin-top:22px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 6px}
+  .stats .n{font-size:22px;font-weight:900;color:var(--yellow)}
+  .stats .t{font-size:10.5px;color:var(--mut);margin-top:4px;line-height:1.3;text-transform:uppercase;letter-spacing:.5px}
+  .cta{display:grid;gap:10px;margin-top:24px}
+  .btn-share{padding:15px;font-size:16px;font-weight:900;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(180deg,var(--red2),var(--red));color:#fff}
+  .btn-again{padding:15px;font-size:15px;font-weight:800;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:transparent;color:var(--ink)}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section id="home">
+    <div class="logo">
+      <div class="q">QUEM <b>DISSE</b><span class="l2">E QUEM <b>FEZ</b>?</span></div>
+      <div class="vs"><span class="l">LULA</span> <span class="x">vs</span> <span class="f">FLÁVIO</span></div>
+      <div class="sub">O jogo das frases e dos fatos do 2º turno — 25 de outubro de 2026</div>
+    </div>
+    <div style="text-align:center"><span class="badge"><span class="dot"></span> Toda resposta tem fonte. Confira você mesmo.</span></div>
+
+    <div class="card-home">
+      <label for="pname">Seu nome</label>
+      <input id="pname" maxlength="24" placeholder="Como te chamam?" autocomplete="off">
+      <button class="btn-main" id="btnStart">JOGAR AGORA</button>
+      <div class="modes">
+        <span>💬 Quem disse?</span><span>⚡ Quem fez?</span><span>🎯 Desafio</span>
+      </div>
+      <div class="rec hidden" id="rec"></div>
+    </div>
+
+    <div class="foot">
+      App de campanha — viés declarado: <b style="color:#ddd">pró-Lula</b>.<br>
+      Mas nenhuma frase é inventada: cada card traz veículo, data e link da fonte.<br>
+      Achou um erro? <a href="FONTES.md" target="_blank" rel="noopener">Veja todas as fontes</a>.
+    </div>
+  </section>
+
+  <!-- ================= GAME ================= -->
+  <section id="game" class="hidden">
+    <div class="top">
+      <div class="who">👤 <b id="pname2"></b></div>
+      <div class="score">ACERTOS <b id="score">0</b></div>
+    </div>
+    <div class="prog"><i id="progBar"></i></div>
+    <div class="stage" id="stage"></div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="result" class="hidden res">
+    <div class="big"><b id="rScore">0</b><span style="color:#666;font-size:.45em">/14</span></div>
+    <div class="title" id="rTitle"></div>
+    <div class="msg" id="rMsg"></div>
+    <div class="stats">
+      <div><div class="n" id="s1">0</div><div class="t">acertos</div></div>
+      <div class="n" style="display:none"></div>
+      <div><div class="n" id="s2">0</div><div class="t">pegadinhas do Flávio que caiu</div></div>
+      <div><div class="n" id="s3">0</div><div class="t">erros</div></div>
+    </div>
+    <div class="cta">
+      <button class="btn-share" id="btnShare">📲 COMPARTILHAR RESULTADO</button>
+      <button class="btn-again" id="btnAgain">🔁 JOGAR DE NOVO</button>
+    </div>
+    <div class="foot" style="margin-top:22px">
+      Voto é no dia <b style="color:var(--yellow)">25 de outubro</b>.<br>
+      Lembra alguém que precisa jogar isso? Manda o link.
+    </div>
+  </section>
+</div>
+
+<script>
+/* =====================================================================
+   DECK — 100% verificado. Cada card: fonte, data e URL.
+   t:'v' = versus (Flávio x Lula) | t:'q' = quiz (opções múltiplas)
+   ===================================================================== */
+const DECK = [
+/* ---------- FRASES — RESPOSTA LULA ---------- */
+{t:'v',cat:'frase',
+ q:'“Se tem um brasileiro que não precisa provar que acredita em Deus, esse brasileiro sou eu. Eu não teria chegado aonde cheguei se não fosse a mão de Deus dirigindo meus passos.”',
+ a:'lula',
+ exp:'Lula, em ato com evangélicos em São Gonçalo (RJ). Complete: “Tenho certeza que lá de cima Ele vai dizer: Lula, cuida deste povo aqui.”',
+ src:'Folha de S.Paulo, 09/09/2022', url:'https://www1.folha.uol.com.br/poder/2022/09/lula-diz-que-deus-guia-seus-passos-em-1o-encontro-de-campanha-com-lideres-evangelicos.shtml'},
+{t:'v',cat:'frase',
+ q:'“O respeito à família sempre foi um valor central na minha vida, que se reflete no profundo amor que dedico à minha esposa, aos meus filhos e netos.”',
+ a:'lula',
+ exp:'Trecho da Carta ao Povo Evangélico, assinada por Lula no 2º turno de 2022.',
+ src:'Carta ao Povo Evangélico — lula.com.br, 19/10/2022', url:'https://lula.com.br/carta-compromisso-com-os-evangelicos/'},
+{t:'v',cat:'frase',
+ q:'“De nada adianta se dizer defensor da Família e ao mesmo tempo destruí-la pela miséria, pelo desemprego, pelo corte das políticas sociais.”',
+ a:'lula',
+ exp:'Lula, na Carta ao Povo Evangélico. A carta também cita a Bíblia: “a verdadeira religião é cuidar dos órfãos e das viúvas” (Tiago 1,27).',
+ src:'Carta ao Povo Evangélico, 19/10/2022', url:'https://lula.com.br/carta-compromisso-com-os-evangelicos/'},
+{t:'v',cat:'frase',
+ q:'“Sou pessoalmente contra o aborto, e lembro a todos que este não é um tema a ser decidido pelo Presidente da República, e sim pelo Congresso Nacional.”',
+ a:'lula',
+ exp:'Lula, na Carta ao Povo Evangélico (2022). Surpresa? Muita gente acha que essa posição é só do lado conservador.',
+ src:'Carta ao Povo Evangélico, 19/10/2022', url:'https://lula.com.br/carta-compromisso-com-os-evangelicos/'},
+{t:'v',cat:'frase',
+ q:'“Sob a proteção de Deus, inauguro este mandato reafirmando que no Brasil a fé pode estar presente em todas as moradas, nos diversos templos, igrejas e cultos.”',
+ a:'lula',
+ exp:'Lula, no discurso de posse no Congresso Nacional. E completou: “Com a força do povo e as bênçãos de Deus, haveremos de reconstruir este país.”',
+ src:'Discurso de posse — Câmara dos Deputados, 01/01/2023', url:'https://www.camara.leg.br/noticias/932450-leia-o-discurso-do-presidente-lula-na-integra/'},
+{t:'v',cat:'frase',
+ q:'“Deus não é mentira. Deus é a verdade. E ninguém pode utilizar o nome de Deus em vão, como eles usam todo santo dia.”',
+ a:'lula',
+ exp:'Lula, em Arcoverde (PE), ao inaugurar obra da transposição do Rio São Francisco, na campanha “Fé no Brasil”.',
+ src:'G1, 04/04/2024', url:'https://g1.globo.com/politica/noticia/2024/04/04/apos-lancar-campanha-fe-no-brasil-lula-recheia-discurso-no-pe-com-mencoes-a-deus-e-milagres.ghtml'},
+{t:'v',cat:'frase',
+ q:'“Eu prezo muito a família, a criação, a educação da mãe. Uma das coisas que eu adoro na Janjinha é que ela pedia a bênção para a mãe dela antes de dormir, todo dia.”',
+ a:'lula',
+ exp:'Lula, no Flow Podcast, na reta final de 2022 — falando da filha caçula.',
+ src:'PT / Flow Podcast, 18/10/2022', url:'https://pt.org.br/lula-acredito-como-acredito-em-deus-que-as-familias-voltarao-a-se-reunir-em-paz/'},
+{t:'v',cat:'frase',
+ q:'“Ninguém deve usar o nome de Deus para tentar ganhar voto.”',
+ a:'lula',
+ exp:'Lula, em encontro com evangélicos em 2022 — sem citar nomes, alfinetando o adversário da época.',
+ src:'Folha de S.Paulo, 09/09/2022', url:'https://www1.folha.uol.com.br/poder/2022/09/lula-diz-que-deus-guia-seus-passos-em-1o-encontro-de-campanha-com-lideres-evangelicos.shtml'},
+{t:'v',cat:'frase',
+ q:'“Não existem dois Brasis. Somos um único país, um único povo, uma grande nação.”',
+ a:'lula',
+ exp:'Lula, no discurso de posse de 2023, chamando à união após anos de polarização.',
+ src:'Discurso de posse — Câmara dos Deputados, 01/01/2023', url:'https://www.camara.leg.br/noticias/932450-leia-o-discurso-do-presidente-lula-na-integra/'},
+{t:'v',cat:'frase',
+ q:'“Disse, naquela ocasião, que a missão de minha vida estaria cumprida quando cada brasileiro e brasileira pudesse fazer três refeições por dia.”',
+ a:'lula',
+ exp:'Lula na posse de 2023, relembrando o discurso de posse de 2003. E disse: “acabamos com a fome e a miséria” nos governos petistas.',
+ src:'Discurso de posse — Câmara dos Deputados, 01/01/2023', url:'https://www.camara.leg.br/noticias/932450-leia-o-discurso-do-presidente-lula-na-integra/'},
+
+/* ---------- FRASES — RESPOSTA FLÁVIO ---------- */
+{t:'v',cat:'frase',
+ q:'“Se Deus me honrar, e vai honrar, nós vamos poder colocar, se não quatro, mas cinco ministros no STF, já contando com Alexandre de Moraes fora.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em agenda de campanha em Recife, prometendo mudar a composição do STF.',
+ src:'Jornal O Sul, 22/09/2026', url:'https://www.osul.com.br/em-campanha-flavio-bolsonaro-investe-em-mencoes-a-deus-ao-defender-preparo-e-citar-proposito/'},
+{t:'v',cat:'frase',
+ q:'“Me sinto super preparado para ser presidente. Deus está me usando para salvar o Brasil.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em entrevista ao SantoFlow Podcast. E completou: “Imagino Deus me entregando a Pátria.”',
+ src:'Broadcast (estadão), 28/09/2026', url:'https://www.broadcast.com.br/ultimas-noticias/flavio-me-sinto-superpreparado-para-ser-presidente-deus-esta-me-usando-para-salvar-o-brasil/'},
+{t:'v',cat:'frase',
+ q:'“Quando eu for presidente, um dos meus primeiros atos será decretar que o Brasil é do Senhor Jesus Cristo.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em vídeo nas redes sociais (ago/2026). Questionado em setembro, a campanha disse que era “apenas figurado”. O Brasil é um Estado laico desde a Constituição de 1891.',
+ src:'O Tempo, 24/08/2026 — e Folha, 29/09/2026', url:'https://www.otempo.com.br/eleicoes/2026/presidentes/2026/8/24/flavio-diz-que-vai-decretar-que-o-brasil-e-do-senhor-jesus-cristo'},
+{t:'v',cat:'frase',
+ q:'“Deus, pátria, família e liberdade não são slogan de campanha para mim. São fundamentos para a vida.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, no mesmo vídeo de agosto de 2026 — o lema “Deus, pátria e família” foi marca da ditadura de Vargas e da Marcha da Família de 1964.',
+ src:'O Tempo, 24/08/2026', url:'https://www.otempo.com.br/eleicoes/2026/presidentes/2026/8/24/flavio-diz-que-vai-decretar-que-o-brasil-e-do-senhor-jesus-cristo'},
+{t:'v',cat:'frase',
+ q:'Sobre o caso da “rachadinha” no seu antigo gabinete na Alerj, um candidato declarou: “Toda essa espuma, todo esse ataque para tentar destruir minha reputação… Sabe quantas ligações financeiras tenho com meus assessores? Zero.”.', a:'flavio',
+ exp:'Flávio Bolsonaro sobre o caso da rachadinha (R$ 6,1 milhões desviados, segundo a denúncia do MP-RJ). O ex-assessor Fabrício Queiroz pagou 169 boletos de contas de Flávio — escola das filhas e plano de saúde — com dinheiro vivo (R$ 247 mil), apurou o MP. A denúncia contra Flávio foi arquivada em 2022 após o STF/STJ anularem as provas.',
+ src:'Folha de S.Paulo, 07/04/2026 — e Valor, 01/09/2026', url:'https://www1.folha.uol.com.br/poder/2026/04/flavio-bolsonaro-chama-rachadinha-de-espuma-e-diz-que-queiroz-tinha-autonomia-em-gabinete.shtml'},
+{t:'v',cat:'frase',
+ q:'Em 16/11/2025, na véspera de o banqueiro Daniel Vorcaro (Banco Master) ser preso pela PF, um político lhe mandou: “Irmão, estou e estarei contigo sempre, não tem meia conversa entre a gente. Só preciso que me dê uma luz!”.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro — a mensagem está no relatório da PF sobre o financiamento do filme do pai dele com dinheiro do banqueiro. No dia seguinte, Vorcaro foi preso na Operação Compliance Zero.',
+ src:'Relatório da PF / G1, 12/09/2026', url:'https://g1.globo.com/politica/noticia/2026/09/12/pf-lista-serie-de-contatos-e-encontros-entre-flavio-bolsonaro-e-vorcaro-veja-cronologia.ghtml'},
+{t:'v',cat:'frase',
+ q:'Agradecendo os repasses do banqueiro do Banco Master para o filme sobre o próprio pai, um político enviou: “Tá perdendo, irmão! Tudo isso só está sendo possível por causa de vc!”.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em 07/11/2025 — dez dias antes de Vorcaro ser preso. A PF aponta Flávio como “interlocutor direto” do banqueiro nas tratativas do filme, cobrando repasses atrasados em áudio.',
+ src:'Relatório da PF / G1, 12/09/2026', url:'https://g1.globo.com/politica/noticia/2026/09/12/pf-lista-serie-de-contatos-e-encontros-entre-flavio-bolsonaro-e-vorcaro-veja-cronologia.ghtml'},
+{t:'v',cat:'frase',
+ q:'“Estou nos Estados Unidos protegendo o Brasil das tarifas e do Lula.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em vídeo gravado em Washington, dias após entregar ao governo americano um documento de 86 páginas pedindo para ADIAR o tarifaço de 25% — para depois da eleição brasileira.',
+ src:'O Globo, 07/07/2026', url:'https://oglobo.globo.com/politica/noticia/2026/07/07/flavio-diz-antes-de-audiencia-nos-eua-que-tarifaco-de-trump-e-ruim-para-o-brasil-e-os-americanos-e-tenta-reverter-desgaste.ghtml'},
+{t:'v',cat:'frase',
+ q:'Em plena crise do tarifaço de Trump contra o Brasil, em viagem a Washington, um candidato afirmou: “O Brasil vai ter um presidente da República que vai poder sentar de igual para igual para negociar com os Estados Unidos.”.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, antes de audiência no USTR (órgão de comércio dos EUA), em Washington — onde foi defender… a si mesmo, como candidato. Ele propôs ao governo Trump uma área de livre comércio EUA–Brasil e seguir o exemplo de Milei.',
+ src:'O Globo, 07/07/2026 — e BBC News Brasil, 02/07/2026', url:'https://www.bbc.com/portuguese/articles/cz9l047qg3zo'},
+{t:'v',cat:'frase',
+ q:'“Não se pode, simplesmente, estigmatizar as milícias (…). A milícia nada mais é do que um conjunto de policiais, militares ou não, buscando expurgar do seio da comunidade o que há de pior: os criminosos.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em discurso na Alerj em 2007, defendendo as milícias cariocas. Milícia é organização criminosa prevista em lei desde 2012.',
+ src:'Agência Senado, 23/01/2019 (discurso de 2007)', url:'https://www2.senado.leg.br/bdsf/bitstream/handle/id/555815/noticia.html?isAllowed=y&sequence=1'},
+{t:'v',cat:'frase',
+ q:'“Quero debater com quem não acredita em Deus.”',
+ a:'flavio',
+ exp:'Flávio Bolsonaro, em vídeo de ago/2026 — dando corda a uma fake news, pois Lula é católico declarado e discursa há décadas citando Deus. A própria Folha registrou que a fala alimentava desinformação.',
+ src:'O Tempo, 24/08/2026 — e Folha, 29/09/2026', url:'https://www1.folha.uol.com.br/poder/2026/09/decretar-brasil-para-cristo-e-apenas-simbolico-diz-flavio-apos-polemica-de-nossa-senhora.shtml'},
+
+/* ---------- FATOS — QUEM FEZ? ---------- */
+{t:'v',cat:'fato',
+ q:'FATO: criou o Bolsa Família em 2003 — programa que o Banco Mundial chama de referência mundial e que chegou a 14 milhões de famílias.',
+ a:'lula',
+ exp:'O programa virou modelo exportado: mais de 120 delegações estrangeiras vieram ao Brasil para conhecê-lo. 1,7 milhão de famílias “se formaram” e saíram do cadastro.',
+ src:'Banco Mundial, 24/03/2014', url:'https://www.worldbank.org/pt/news/opinion/2014/03/24/brazil-contribution-world-without-poverty'},
+{t:'v',cat:'fato',
+ q:'FATO: no governo dele, mais de 29 milhões de brasileiros saíram da pobreza (2003–2014) e o índice de desigualdade Gini caiu de 58,1 para 51,5.',
+ a:'lula',
+ exp:'Dados do Banco Mundial sobre os governos Lula e Dilma: “mais de 29 milhões de pessoas saíram da pobreza” entre 2003 e 2014. A renda dos 40% mais pobres cresceu 7,1% ao ano.',
+ src:'Banco Mundial, 2017', url:'https://jornalgrandebahia.com.br/2017/11/banco-mundial-destaca-progresso-social-e-economico-do-brasil-alcancados-durante-os-governos-lula-e-rousseff-entre-2003-e-2013-26-milhoes-de-pessoas-sairam-da-pobreza/'},
+{t:'v',cat:'fato',
+ q:'FATO: foi relator e votou a favor da lei do Rio que endureceu tanto raves e bailes funk que, na prática, “tornou-se impossível promover um baile legalmente”.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro foi relator favorável na Alerj da Lei 5.265/2008 (do deputado Álvaro Lins), que exigia autorização da polícia com 30 dias de antecedência para raves e bailes funk. DJ Marlboro: a lei empurrou os bailes para a clandestinidade. Foi revogada em 2009 após protestos.',
+ src:'Alerj (PL 1032/07) e Folha, 04/09/2009', url:'https://www1.folha.uol.com.br/fsp/ilustrad/fq0409200909.htm'},
+{t:'v',cat:'fato',
+ q:'FATO: é investigado no STF, desde julho de 2026, por lavagem de dinheiro, evasão de divisas e corrupção no caso do filme financiado pelo dono do Banco Master.',
+ a:'flavio',
+ exp:'O ministro André Mendonça autorizou o inquérito contra Flávio Bolsonaro no financiamento do filme “Dark Horse”, sobre o pai dele. Segundo a PF, Vorcaro prometeu até R$ 131 milhões e repassou cerca de R$ 60 milhões via fundo no Texas. Flávio nega irregularidades.',
+ src:'Estadão e Bloomberg, 11–12/09/2026', url:'https://www.estadao.com.br/politica/blog-do-fausto-macedo/flavio-investigado-dinheiro-de-toffoli-e-diretor-anjo-o-que-o-fim-do-sigilo-do-master-revela/'},
+{t:'v',cat:'fato',
+ q:'FATO: admitiu ter se encontrado com um banqueiro preso quando este cumpria prisão domiciliar — para “botar ponto final” nas tratativas do filme.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro confirmou o encontro com Daniel Vorcaro entre dezembro de 2025 e o início de 2026, quando o banqueiro do Master usava tornozeleira eletrônica. Antes, Flávio havia negado ter pedido dinheiro a ele — e depois confirmou que pediu.',
+ src:'G1, 12/09/2026', url:'https://g1.globo.com/politica/noticia/2026/09/12/pf-lista-serie-de-contatos-e-encontros-entre-flavio-bolsonaro-e-vorcaro-veja-cronologia.ghtml'},
+{t:'v',cat:'fato',
+ q:'FATO: entregou um documento de 86 páginas ao governo dos EUA pedindo para adiar o tarifaço de 25% sobre produtos brasileiros — para DEPOIS da eleição.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro protocolou o pedido no USTR em 02/07/2026, sugerindo suspensão de 180 dias. No documento, ainda sugeriu que os EUA aplicassem “medidas direcionadas” — sanções e restrições de visto contra AUTORIDADES BRASILEIRAS, como ministros do STF — em vez de tarifas.',
+ src:'Exame e BBC News Brasil, 02/07/2026', url:'https://www.bbc.com/portuguese/articles/cz9l047qg3zo'},
+{t:'v',cat:'fato',
+ q:'FATO: deu a Medalha Tiradentes — a mais alta honraria da Alerj — a um policial que estava PRESO por suspeita de homicídio na data da homenagem.',
+ a:'flavio',
+ exp:'Flávio Bolsonaro condecorou Adriano da Nóbrega em 2005; ele não compareceu à cerimônia porque estava preso. Anos depois, Nóbrega foi apontado como chefe do “Escritório do Crime”, milícia suspeita do assassinato de Marielle Franco, e morreu em confronto em 2020. A mãe e a mulher dele foram assessoras de Flávio até 2018.',
+ src:'G1 (Jornal Nacional), 10/02/2020 — e Agência Senado', url:'https://g1.globo.com/jornal-nacional/noticia/2020/02/10/ex-pm-era-suspeito-de-chefiar-grupo-que-cometeu-dezenas-de-homicidios.ghtml'},
+{t:'v',cat:'fato',
+ q:'FATO: nos seus governos, a pobreza extrema caiu pela metade — de 9,7% para 4,3% da população entre 2001 e 2011.',
+ a:'lula',
+ exp:'Dados do Banco Mundial: 22 milhões de pessoas saíram da pobreza nesse período — “mais do que a população de Portugal”, como resume a própria instituição.',
+ src:'Banco Mundial, 24/03/2014', url:'https://www.worldbank.org/pt/news/opinion/2014/03/24/brazil-contribution-world-without-poverty'},
+{t:'v',cat:'fato',
+ q:'FATO: criou por decreto o Dia da Marcha para Jesus e o Dia Nacional do Evangélico.',
+ a:'lula',
+ exp:'Assinados no governo Lula, como ele lembra na Carta ao Povo Evangélico de 2022, junto com a reforma do Código Civil que assegurou liberdade religiosa.',
+ src:'Carta ao Povo Evangélico, 19/10/2022', url:'https://lula.com.br/carta-compromisso-com-os-evangelicos/'},
+{t:'v',cat:'fato',
+ q:'FATO: propôs “libertar o Brasil das amarras do Mercosul” para assinar acordos bilaterais com os EUA, citando a Argentina de Javier Milei como exemplo a seguir.',
+ a:'flavio',
+ exp:'Defesa feita por Flávio Bolsonaro no documento entregue ao USTR e em audiência pública em Washington. O plano de governo dele também prevê adesão à OCDE com “convergência das normas brasileiras aos padrões internacionais”.',
+ src:'BBC News Brasil, 02/07/2026 — e Metrópoles, 13/08/2026', url:'https://www.metropoles.com/brasil/em-plano-flavio-propoe-reaproximacao-com-eua-e-reacao-a-sancoes'},
+
+/* ---------- DESAFIO (quiz de conhecimento) ---------- */
+{t:'q',cat:'desafio',
+ q:'Qual ex-presidente do Brasil foi condenado a 27 anos e 3 meses de prisão por tentativa de golpe de Estado — a primeira condenação do tipo na história do país?',
+ opts:['Fernando Henrique Cardoso','Jair Bolsonaro — pai do candidato Flávio','Michel Temer','Dilma Rousseff'], a:1,
+ exp:'Em 11/09/2025, a 1ª Turma do STF condenou Jair Bolsonaro por golpe de Estado, organização criminosa armada e mais três crimes. Ele começou a cumprir a pena em 25/11/2025, após danificar a tornozeleira eletrônica, e hoje cumpre prisão domiciliar.',
+ src:'G1, 11/09/2025 — e BBC, 25/11/2025', url:'https://g1.globo.com/politica/noticia/2025/09/11/primeira-turma-do-stf-condena-jair-bolsonaro-e-outros-sete-reus-por-golpe-de-estado.ghtml'},
+{t:'q',cat:'desafio',
+ q:'Segundo o Banco Mundial, quantos brasileiros saíram da pobreza entre 2003 e 2014?',
+ opts:['Cerca de 5 milhões','Cerca de 12 milhões','Cerca de 29 milhões','Nenhum — a pobreza subiu'], a:2,
+ exp:'“Mais de 29 milhões de pessoas saíram da pobreza”, diz o Banco Mundial sobre 2003–2014, com queda recorde da desigualdade (Gini de 58,1 para 51,5). Estudo da FGV mostra que o Brasil cumpriu a meta da ONU 25 anos antes do prazo.',
+ src:'Banco Mundial (2017) e FGV', url:'https://jornalgrandebahia.com.br/2017/11/banco-mundial-destaca-progresso-social-e-economico-do-brasil-alcancados-durante-os-governos-lula-e-rousseff-entre-2003-e-2013-26-milhoes-de-pessoas-sairam-da-pobreza/'},
+{t:'q',cat:'desafio',
+ q:'“Dark Horse”, o filme biográfico de Jair Bolsonaro estrelado por um ator de Hollywood, foi financiado com dinheiro de quem, segundo a Polícia Federal?',
+ opts:['De fãs numa vaquinha online','Do banqueiro Daniel Vorcaro, dono do Banco Master','Da Lei Rouanet','Do próprio partido PL'], a:1,
+ exp:'A PF aponta Vorcaro como financiador, com cerca de R$ 60 milhões remetidos via fundo no Texas — e Flávio Bolsonaro como “interlocutor direto”, cobrando repasses atrasados em áudios. Vorcaro foi preso em nov/2025 e o Banco Master foi liquidado.',
+ src:'G1, 12/09/2026', url:'https://g1.globo.com/politica/noticia/2026/09/12/pf-lista-serie-de-contatos-e-encontros-entre-flavio-bolsonaro-e-vorcaro-veja-cronologia.ghtml'},
+{t:'q',cat:'desafio',
+ q:'No caso da “rachadinha” no gabinete de Flávio Bolsonaro na Alerj, o MP-RJ denunciou desvio de quanto em dinheiro público?',
+ opts:['R$ 60 mil','R$ 6,1 milhões','R$ 500 mil','Não houve denúncia'], a:1,
+ exp:'A denúncia de 2020 apontou R$ 6,1 milhões pagos a assessores “fantasmas”, com repasses ao operador Fabrício Queiroz. Importante: a denúncia contra Flávio foi arquivada em 2022, após o STF/STJ anularem as provas — e o caso segue usado pelos dois lados na campanha.',
+ src:'Valor Econômico, 01/09/2026', url:'https://valor.globo.com/politica/eleicoes-2026/noticia/2026/09/01/flavio-bolsonaro-relembre-o-processo-da-rachadinha.ghtml'},
+{t:'q',cat:'desafio',
+ q:'O que Flávio Bolsonaro sugeriu aos Estados Unidos, no documento de 86 páginas, como alternativa às tarifas “cegas” contra o Brasil?',
+ opts:['Nada — ele pediu o fim total das tarifas','Doar vacinas','Sanções financeiras e restrições de visto contra autoridades brasileiras, como ministros do STF','Aumentar as tarifas'], a:2,
+ exp:'Flávio sugeriu “medidas direcionadas” — sanções financeiras e restrições de visto contra autoridades brasileiras — modelo já usado contra ministros do STF. O caso rendeu acusações de que a família Bolsonaro atua contra interesses do Brasil na disputa comercial.',
+ src:'BBC News Brasil, 02/07/2026', url:'https://www.bbc.com/portuguese/articles/cz9l047qg3zo'},
+{t:'q',cat:'desafio',
+ q:'Quando o tarifaço de 25% de Trump ameaçava o Brasil, o que Lula fez?',
+ opts:['Foi aos EUA pedir para adiar as tarifas','Recusou as 21 exigências políticas de Trump e mobilizou diplomacia, empresários e exportadores','Fechou a economia','Assinou tudo o que os EUA pediram'], a:1,
+ exp:'O governo Lula considerou as 21 condições americanas “inaceitáveis” — incluíam pontos políticos — e seguiu negociando via Itamaraty com quatro rodadas de negociações, enquanto setores mobilizados pressionavam por solução negociada.',
+ src:'Exame, 02 e 07/07/2026', url:'https://exame.com/brasil/flavio-bolsonaro-envia-documento-aos-eua-pedindo-o-adiamento-das-tarifas-contra-o-brasil/'},
+];
+
+/* ===================== ENGINE ===================== */
+const ROUND = 14;
+const $ = id => document.getElementById(id);
+let state = null;
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function startGame(){
+  const name = ($('pname').value||'').trim() || 'Anônimo';
+  try{localStorage.setItem('qd_name',name)}catch(e){}
+  // mistura equilibrada: ~60% frases, resto fatos/desafios, todos embaralhados
+  const frases = shuffle(DECK.filter(c=>c.cat==='frase')).slice(0,7);
+  const fatos  = shuffle(DECK.filter(c=>c.cat==='fato')).slice(0,5);
+  const desaf  = shuffle(DECK.filter(c=>c.cat==='desafio')).slice(0,2);
+  state = {name, deck: shuffle([...frases,...fatos,...desaf]), i:0, hits:0, miss:0, tricked:0};
+  $('pname2').textContent = name;
+  $('home').classList.add('hidden'); $('result').classList.add('hidden');
+  $('game').classList.remove('hidden');
+  render();
+}
+
+const TAG = {frase:'💬 QUEM DISSE?', fato:'⚡ QUEM FEZ?', desafio:'🎯 DESAFIO'};
+
+function render(){
+  const c = state.deck[state.i];
+  $('score').textContent = state.hits;
+  $('progBar').style.width = (state.i/ROUND*100)+'%';
+  let html = `<div class="qcard"><span class="qtag ${c.cat}">${TAG[c.cat]}</span>
+    <div class="qtext">${c.q}</div></div>`;
+  if(c.t==='v'){
+    html += `<div class="opts">
+      <button class="opt flavio" data-a="flavio">FLÁVIO</button>
+      <button class="opt lula" data-a="lula">LULA</button></div>`;
+  } else {
+    html += `<div class="opts">` + c.opts.map((o,i)=>`<button class="opt small" data-i="${i}">${o}</button>`).join('') + `</div>`;
+  }
+  html += `<div id="fbSlot"></div>`;
+  const st = $('stage'); st.innerHTML = html;
+  st.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(b,c)));
+}
+
+function answer(btn,c){
+  const isV = c.t==='v';
+  const pick = isV ? btn.dataset.a : +btn.dataset.i;
+  const right = isV ? pick===c.a : pick===c.a;
+  // estilo dos botões
+  const btns = $('stage').querySelectorAll('.opt');
+  btns.forEach(b=>{b.disabled=true; if(!(b===btn))b.classList.add('dim')});
+  btn.classList.remove('dim');
+  btn.classList.add(right?'correct':'wrong');
+  if(!right && isV){
+    const other=[...btns].find(b=>b.dataset.a===c.a); if(other){other.classList.remove('dim');other.classList.add('correct')}
+  }
+  if(!right && !isV){
+    const other=[...btns].find(b=>+b.dataset.i===c.a); if(other){other.classList.remove('dim');other.classList.add('correct')}
+  }
+  if(right) state.hits++; else {state.miss++; if(isV && c.a==='lula') state.tricked++;}
+  $('score').textContent = state.hits;
+  const who = isV ? (c.a==='lula'?'LULA':'FLÁVIO') : null;
+  $('fbSlot').innerHTML = `<div class="fb ${right?'ok':'no'}">
+      <div class="verdict">${right?'✅ ACERTOU!':'❌ ERROU — era outra pessoa'}</div>
+      ${who?`<div class="answer ${c.a}">FOI ${who}</div>`:''}
+      <p>${c.exp}</p>
+      <div class="src">🔎 Fonte: ${c.src} · <a href="${c.url}" target="_blank" rel="noopener">ver fonte ↗</a></div>
+      <button class="btn-next" id="btnNext">${state.i===ROUND-1?'VER RESULTADO →':'PRÓXIMA →'}</button>
+    </div>`;
+  $('btnNext').addEventListener('click',next);
+  $('fbSlot').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function next(){
+  state.i++;
+  if(state.i>=ROUND){finish();return}
+  $('progBar').style.width = (state.i/ROUND*100)+'%';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function finish(){
+  $('game').classList.add('hidden');
+  const h = state.hits, m = state.miss, t = state.tricked, n = state.name;
+  $('rScore').textContent = h;
+  $('s1').textContent = h; $('s2').textContent = t; $('s3').textContent = m;
+  let title,msg;
+  if(h>=13){title='NÍVEL: XERIFE DA FONTE 🔎';msg=`Imparável, ${n}! Você conhece essa eleição melhor que porta-voz de campanha.`}
+  else if(h>=10){title='NÍVEL: BEM INFORMADO(A) 💪';msg=`Mandou bem, ${n}! Mas ${t} fala(s) de Lula você jurou que era do Flávio, né? É exatamente esse o jogo deles.`}
+  else if(h>=7){title='NÍVEL: SURPRESO(A) 😮';msg=`${n}, você caiu em ${t} pegadinha(s) — quantas frases sobre Deus e família que você achava serem de um lado… eram do outro.`}
+  else if(h>=4){title='NÍVEL: CONVENCIDO PELA MÁQUINA 📺';msg=`${n}, o bombardeio de frases fora de contexto funcionou com você. A boa notícia: agora você sabe onde conferir.`}
+  else{title='NÍVEL: PRECISA JOGAR MAIS 🔄';msg=`Calma, ${n}. Roda de novo — e desta vez clica em “ver fonte” em cada resposta.`}
+  $('rTitle').textContent=title; $('rMsg').textContent=msg;
+  $('result').classList.remove('hidden');
+  // recorde local
+  try{
+    const best = +(localStorage.getItem('qd_best')||0);
+    if(h>best) localStorage.setItem('qd_best',h);
+  }catch(e){}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function share(){
+  const h=state?state.hits:0, n=state?state.name:'alguém';
+  const txt = `🏆 ${n} fez ${h}/${ROUND} no QUEM DISSE E QUEM FEZ? — Lula vs Flávio.\nCada resposta tem fonte. Quantas frases de Lula você confundiria com Flávio?\nJoga aí 👇`;
+  if(navigator.share){navigator.share({title:'QUEM DISSE E QUEM FEZ? — Lula vs Flávio',text:txt}).catch(()=>{})}
+  else{
+    navigator.clipboard?.writeText(txt).then(()=>alert('Texto copiado! Cole no seu grupo 😄')).catch(()=>alert(txt));
+  }
+}
+
+/* boot */
+$('btnStart').addEventListener('click',startGame);
+$('pname').addEventListener('keydown',e=>{if(e.key==='Enter')startGame()});
+$('btnAgain').addEventListener('click',()=>{$('result').classList.add('hidden');$('home').classList.remove('hidden');showRec()});
+$('btnShare').addEventListener('click',share);
+function showRec(){
+  try{
+    const best=+(localStorage.getItem('qd_best')||0);
+    if(best>0){$('rec').classList.remove('hidden');$('rec').innerHTML=`🏅 Seu recorde: <b>${best}/${ROUND}</b>`}
+  }catch(e){}
+}
+try{$('pname').value = localStorage.getItem('qd_name')||''}catch(e){}
+showRec();
+/* service worker */
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
