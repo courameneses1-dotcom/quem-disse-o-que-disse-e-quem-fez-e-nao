@@ -100,3 +100,11 @@ Regra do deck: nenhuma citação sem fonte; nenhuma acusação sem qualifying ju
   https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/votos-em-branco-ou-nulos-nao-sao-transferidos-para-o-vencedor-nem-cancelam-uma-eleicao
 - Ditadura militar 1964–1985 (21 anos); eleição presidencial direta retomada em 1989 — verbete canônico:
   https://pt.wikipedia.org/wiki/Ditadura_militar_no_Brasil_(1964%E2%80%931985)
+
+## Terras raras — v3
+- O que são ("vitaminas da indústria tecnológica"; Brasil tem a 2ª maior reserva do mundo) — G1, 18/05/2026:
+  https://g1.globo.com/educacao/noticia/2026/05/18/o-que-sao-terras-raras-que-nao-sao-terras-nem-raras.ghtml
+- Flávio ofereceu "parceria estratégica" em minerais críticos aos EUA; propostas coincidem com 16 das 21 exigências de Trump — ICL Notícias via Grupo Portal de Notícias, 18/09/2026:
+  https://grupoportaldenoticias.com.br/flavio-e-aliados-tem-propostas-que-coincidem-com-16-das-21-exigencias-de-trump-ao-brasil/
+- Terras raras: o que são e por que os EUA se importam — G1, 25/07/2025:
+  https://g1.globo.com/ciencia/noticia/2025/07/25/terras-raras-o-que-sao.ghtml

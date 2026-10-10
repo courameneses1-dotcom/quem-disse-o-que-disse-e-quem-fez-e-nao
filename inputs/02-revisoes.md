@@ -14,3 +14,9 @@
 - **Recado fixo** no app: ideia original "NÃO VOTE PELO DIREITO DE VOTAR" → substituída por versão mais impactante (ver MOTTO no código), com alternativas.
 - **Tática**: gamificação de convencimento (pré/pós = medição de virada de voto).
 - Status: feito na v2.
+
+## R3 (mesma sessão)
+- **Hero artístico** na capa (desenhado em SVG, sem imagem externa): bandeira do Brasil por cima de uma bandeira rasgada dos EUA; título "QUEM (branco) DISSE (amarelo)" e "E (branco dentro de estrela vermelha) QUEM FEZ?" escritos dentro da bandeira; demais estrelas brancas/douradas; muro de tijolos quebrando com pichação "O BRASIL NÃO CABE NO QUINTAL DE NINGUÉM" (verde e amarelo); povo pulando o muro (referência The Wall/Pink Floyd); punho erguido (Muhammad Ali/Malcolm X); estátua da Liberdade segurando bandeirinha do Brasil; águia careca sendo pisoteada por um gavião; chamas; flora (folhas e flor); estrelas douradas no arredor/fundo da tela (textura CSS no body).
+- **Simplificar TODOS os textos** pra "linguagem do povo", menos texto — quem quer detalhe clica em "ver fonte" (explicações foram cortadas pra 1–2 frases curtas; educativa e mensagens de virada enxutas; fonte exibida só como link).
+- **Terras raras**: 1 card "Quem fez?" (Flávio oferecendo os minerais na carta a Trump) + 1 quiz explicando o que são em linguagem simples — fontes: G1 e ICL.
+- Status: feito na v3.
