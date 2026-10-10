@@ -91,3 +91,12 @@ Regra do deck: nenhuma citação sem fonte; nenhuma acusação sem qualifying ju
 
 ---
 *Compilado em 10/10/2026. Se alguma fonte sair do ar, use o título + data para localizar a matéria (Wayback Machine etc.).*
+
+## Parte educativa ("Por que votar?") — v2
+- Voto feminino: Decreto nº 21.076/1932 (Código Eleitoral) garantiu voto feminino; Celina Guimarães, primeira eleitora (Mossoró-RN, 1927); Bertha Lutz, líder sufragista; restrições em 1934, igualdade em 1946, analfabetos em 1988 — TSE:
+  https://www.tse.jus.br/comunicacao/noticias/2024/Fevereiro/justica-eleitoral-completa-92-anos-primeiro-codigo-eleitoral-garantiu-o-direito-ao-voto-as-mulheres
+  https://www.tse.jus.br/comunicacao/noticias/2023/Fevereiro/conquista-do-voto-feminino-completa-91-anos-nesta-sexta-24
+- Votos em branco e nulos não são transferidos ao vencedor nem cancelam a eleição (art. 211 do Código Eleitoral) — TSE, out/2022:
+  https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/votos-em-branco-ou-nulos-nao-sao-transferidos-para-o-vencedor-nem-cancelam-uma-eleicao
+- Ditadura militar 1964–1985 (21 anos); eleição presidencial direta retomada em 1989 — verbete canônico:
+  https://pt.wikipedia.org/wiki/Ditadura_militar_no_Brasil_(1964%E2%80%931985)

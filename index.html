@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>QUEM DISSE E QUEM FEZ? — Lula vs Flávio</title>
-<meta name="description" content="O jogo das frases e dos fatos do 2º turno. Quem disse? Quem fez? Cada resposta tem fonte — confira você mesmo.">
+<meta name="description" content="O jogo das frases e dos fatos do 2º turno. Quem disse? Quem fez? Declare seu voto antes e depois de jogar. Cada resposta tem fonte.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="theme-color" content="#141414">
+<meta name="theme-color" content="#071b10">
 <style>
   :root{
-    --bg:#141414; --card:#1e1e1e; --line:#333;
-    --red:#d61317; --red2:#ff3a3f; --yellow:#ffd100;
-    --blue:#0b66c2; --blue2:#2b8bef;
-    --green:#16a34a; --okbg:#0f2e1a;
-    --redbad:#7f1d1d; --badbg:#2e0f0f;
-    --ink:#f5f5f5; --mut:#9a9a9a;
+    --bg:#071b10; --card:#0c2617; --line:#1d4a2b;
+    --yellow:#ffd100; --yellow2:#ffe14d;
+    --green:#00b34a; --green2:#00d05e;
+    --grey:#39434d; --grey2:#28313a;
+    --ok:#21c55d; --err:#e04141;
+    --ink:#f2f7f0; --mut:#8fa596;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
@@ -24,112 +24,147 @@
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     background:var(--bg); color:var(--ink);
     display:flex; flex-direction:column; align-items:center;
-    min-height:100dvh;
+    min-height:100dvh; padding-bottom:58px; /* espaço do banner fixo */
   }
-  .wrap{width:100%;max-width:560px;padding:16px 14px 28px;display:flex;flex-direction:column;flex:1}
+  .wrap{width:100%;max-width:560px;padding:16px 14px 24px;display:flex;flex-direction:column;flex:1}
+  /* ---------- BANNER FIXO ---------- */
+  #motto{
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:var(--yellow); color:#071b10;
+    font-size:13px; font-weight:900; letter-spacing:.3px; text-align:center;
+    padding:9px 10px calc(9px + env(safe-area-inset-bottom)); line-height:1.3;
+    border-top:3px solid #071b10;
+  }
   /* ---------- HOME ---------- */
-  .logo{margin:26px 0 6px;text-align:center}
-  .logo .q{font-size:clamp(34px,10vw,58px);font-weight:900;letter-spacing:-1.5px;line-height:1.02}
-  .logo .q b{color:var(--red2)}
-  .logo .q .l2{display:block;font-size:.78em;color:var(--yellow);letter-spacing:0}
-  .logo .qm{color:var(--yellow)}
-  .logo .vs{margin-top:10px;font-size:15px;font-weight:800;letter-spacing:.5px}
-  .logo .vs .f{color:var(--blue2)} .logo .vs .l{color:var(--red2)} .logo .vs .x{color:var(--mut)}
-  .logo .sub{color:var(--mut);font-size:13px;margin-top:6px}
+  .logo{margin:22px 0 6px;text-align:center}
+  .logo .q{font-size:clamp(30px,9vw,54px);font-weight:900;letter-spacing:-1.2px;line-height:1.04;color:#fff}
+  .logo .q b{color:var(--yellow)}
+  .logo .q .l2{display:block;font-size:.8em;color:var(--green2)}
+  .logo .q .l2 b{color:var(--yellow)}
+  .logo .vs{margin-top:8px;font-size:15px;font-weight:800;letter-spacing:.5px}
+  .logo .vs .f{color:#aab6bf} .logo .vs .l{color:var(--yellow)} .logo .vs .x{color:var(--mut)}
+  .logo .sub{color:var(--mut);font-size:13px;margin-top:5px}
   .badge{
-    margin:18px auto 0;display:inline-flex;align-items:center;gap:8px;
-    background:#232323;border:1px solid var(--line);border-radius:999px;
-    padding:8px 14px;font-size:12.5px;color:#ddd;
+    margin:14px auto 0;display:inline-flex;align-items:center;gap:8px;
+    background:#0e2c1b;border:1px solid var(--line);border-radius:999px;
+    padding:7px 13px;font-size:12px;color:#d9e5dc;
   }
-  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-  .card-home{
-    margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 18px;
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  .card-home{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 16px}
+  .card-home label{display:block;font-size:12.5px;font-weight:800;color:var(--mut);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+  .voto-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .chip{
+    padding:12px 8px;border-radius:11px;border:2px solid var(--line);background:#0a2114;
+    color:var(--ink);font-size:14.5px;font-weight:800;cursor:pointer;text-align:center;
+    transition:border-color .12s, background .12s;
   }
-  .card-home label{display:block;font-size:13px;font-weight:700;color:var(--mut);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+  .chip.wide{grid-column:1/-1}
+  .chip.sel{border-color:var(--yellow);background:#12331e;color:var(--yellow)}
+  .chip[disabled]{cursor:default}
   .card-home input{
-    width:100%;padding:14px 16px;font-size:18px;border-radius:12px;border:1px solid var(--line);
-    background:#141414;color:var(--ink);outline:none;
+    width:100%;padding:13px 15px;font-size:17px;border-radius:11px;border:1px solid var(--line);
+    background:#071b10;color:var(--ink);outline:none;margin-top:4px;
   }
   .card-home input:focus{border-color:var(--yellow)}
   .btn-main{
-    width:100%;margin-top:16px;padding:16px;font-size:20px;font-weight:900;letter-spacing:.5px;
-    background:linear-gradient(180deg,var(--red2),var(--red));color:#fff;border:none;border-radius:12px;cursor:pointer;
-    transition:transform .06s ease;
-  }
-  .btn-main:active{transform:scale(.98)}
-  .modes{margin-top:14px;display:flex;gap:8px}
-  .modes span{flex:1;text-align:center;font-size:11.5px;color:var(--mut);border:1px dashed var(--line);border-radius:10px;padding:8px 4px}
-  .foot{margin-top:auto;padding-top:26px;text-align:center;font-size:11.5px;color:#777;line-height:1.5}
-  .foot a{color:var(--yellow)}
-  .rec{margin-top:12px;text-align:center;color:var(--mut);font-size:13px}
-  .rec b{color:var(--ink)}
-  /* ---------- GAME ---------- */
-  .top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-  .top .who{font-size:14px;font-weight:800}
-  .top .who b{color:var(--yellow)}
-  .top .score{margin-left:auto;font-size:13px;color:var(--mut);font-weight:700}
-  .top .score b{color:var(--ink);font-size:16px}
-  .prog{height:6px;background:#262626;border-radius:99px;overflow:hidden;margin-bottom:18px}
-  .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow));width:0;transition:width .3s ease}
-  .stage{
-    position:relative;flex:1;display:flex;flex-direction:column;
-  }
-  .qcard{
-    background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 20px;
-    animation:pop .28s ease;
-  }
-  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-  .qtag{display:inline-block;font-size:11px;font-weight:900;letter-spacing:2px;color:#111;background:var(--yellow);
-    border-radius:6px;padding:4px 9px;margin-bottom:14px}
-  .qtag.fato{background:var(--blue2)} .qtag.desafio{background:var(--red2);color:#fff}
-  .qtext{font-size:clamp(19px,5.2vw,24px);font-weight:800;line-height:1.35}
-  .qtext .aspis{color:var(--yellow)}
-  .opts{display:grid;gap:12px;margin-top:22px}
-  .opt{
-    padding:16px;font-size:18px;font-weight:900;border:none;border-radius:12px;cursor:pointer;color:#fff;
+    width:100%;margin-top:14px;padding:15px;font-size:19px;font-weight:900;letter-spacing:.5px;
+    background:var(--yellow);color:#071b10;border:none;border-radius:11px;cursor:pointer;
     transition:transform .06s ease, opacity .2s;
   }
+  .btn-main:active{transform:scale(.98)}
+  .btn-main[disabled]{opacity:.35;cursor:not-allowed}
+  .link-edu{
+    display:block;width:100%;margin-top:12px;padding:12px;text-align:center;font-size:14px;font-weight:800;
+    background:transparent;color:var(--green2);border:1.5px dashed var(--line);border-radius:11px;cursor:pointer;
+  }
+  .modes{margin-top:12px;display:flex;gap:6px}
+  .modes span{flex:1;text-align:center;font-size:10.5px;color:var(--mut);border:1px dashed var(--line);border-radius:9px;padding:7px 3px}
+  .foot{margin-top:auto;padding-top:20px;text-align:center;font-size:11px;color:#6f8577;line-height:1.5}
+  .foot a{color:var(--yellow)}
+  .rec{margin-top:10px;text-align:center;color:var(--mut);font-size:12.5px}
+  .rec b{color:var(--ink)}
+  /* ---------- GAME ---------- */
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .top .who{font-size:13.5px;font-weight:800}
+  .top .who b{color:var(--yellow)}
+  .top .score{margin-left:auto;font-size:12.5px;color:var(--mut);font-weight:700}
+  .top .score b{color:var(--ink);font-size:15px}
+  .top .pre{font-size:11px;color:var(--mut)}
+  .prog{height:6px;background:#122c1c;border-radius:99px;overflow:hidden;margin-bottom:16px}
+  .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--yellow));width:0;transition:width .3s ease}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;animation:pop .28s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  .qtag{display:inline-block;font-size:11px;font-weight:900;letter-spacing:2px;color:#071b10;background:var(--yellow);
+    border-radius:6px;padding:4px 9px;margin-bottom:14px}
+  .qtag.fato{background:var(--green2)} .qtag.desafio{background:#fff}
+  .qtext{font-size:clamp(18px,5vw,22.5px);font-weight:800;line-height:1.38}
+  .opts{display:grid;gap:12px;margin-top:20px}
+  .opt{padding:15px;font-size:18px;font-weight:900;border:none;border-radius:11px;cursor:pointer;
+    transition:transform .06s ease, opacity .2s}
   .opt:active{transform:scale(.98)}
-  .opt.flavio{background:linear-gradient(180deg,var(--blue2),var(--blue))}
-  .opt.lula{background:linear-gradient(180deg,var(--red2),var(--red))}
-  .opt.small{font-size:15.5px;font-weight:700;background:#2c2c2c;padding:14px}
+  .opt.flavio{background:linear-gradient(180deg,var(--grey),var(--grey2));color:#e8edf1}
+  .opt.lula{background:linear-gradient(180deg,var(--yellow2),var(--yellow));color:#071b10}
+  .opt.small{font-size:15px;font-weight:700;background:#12331e;color:var(--ink);padding:13px}
   .opt[disabled]{cursor:default}
   .opt.dim{opacity:.35}
-  .opt.correct{outline:3px solid var(--green);outline-offset:2px}
-  .opt.wrong{outline:3px solid var(--red2);outline-offset:2px}
-  /* feedback */
+  .opt.correct{outline:3px solid var(--ok);outline-offset:2px}
+  .opt.wrong{outline:3px solid var(--err);outline-offset:2px}
   .fb{margin-top:14px;border-radius:14px;padding:16px 16px 14px;animation:pop .25s ease}
-  .fb.ok{background:var(--okbg);border:1px solid var(--green)}
-  .fb.no{background:var(--badbg);border:1px solid var(--red2)}
+  .fb.ok{background:#0f2e1a;border:1px solid var(--ok)}
+  .fb.no{background:#2e0f0f;border:1px solid var(--err)}
   .fb .verdict{font-size:15px;font-weight:900;letter-spacing:.5px}
   .fb.ok .verdict{color:#4ade80}.fb.no .verdict{color:#ff6b6e}
   .fb .answer{font-size:19px;font-weight:900;margin:4px 0 8px}
-  .fb .answer.lula{color:var(--red2)} .fb .answer.flavio{color:var(--blue2)}
-  .fb p{font-size:14.5px;line-height:1.5;color:#e6e6e6}
+  .fb .answer.lula{color:var(--yellow)} .fb .answer.flavio{color:#aab6bf}
+  .fb p{font-size:14.5px;line-height:1.5;color:#e6eee8}
   .fb .src{margin-top:12px;font-size:12.5px;color:var(--mut);line-height:1.45}
   .fb .src a{color:var(--yellow);font-weight:700;text-decoration:none}
-  .btn-next{
-    margin-top:16px;width:100%;padding:14px;font-size:16px;font-weight:900;
-    background:var(--yellow);color:#111;border:none;border-radius:12px;cursor:pointer;
-  }
+  .btn-next{margin-top:16px;width:100%;padding:13px;font-size:16px;font-weight:900;
+    background:var(--yellow);color:#071b10;border:none;border-radius:11px;cursor:pointer}
   .btn-next:active{transform:scale(.98)}
   /* ---------- RESULT ---------- */
   .res{flex:1;display:flex;flex-direction:column;text-align:center}
-  .res .big{font-size:clamp(52px,16vw,84px);font-weight:900;margin-top:16px}
+  .res .big{font-size:clamp(48px,15vw,80px);font-weight:900;margin-top:12px}
   .res .big b{color:var(--yellow)}
-  .res .title{font-size:22px;font-weight:900;margin-top:4px}
-  .res .msg{color:var(--mut);font-size:15px;margin-top:8px;line-height:1.5}
-  .stats{margin-top:22px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 6px}
-  .stats .n{font-size:22px;font-weight:900;color:var(--yellow)}
-  .stats .t{font-size:10.5px;color:var(--mut);margin-top:4px;line-height:1.3;text-transform:uppercase;letter-spacing:.5px}
-  .cta{display:grid;gap:10px;margin-top:24px}
-  .btn-share{padding:15px;font-size:16px;font-weight:900;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(180deg,var(--red2),var(--red));color:#fff}
-  .btn-again{padding:15px;font-size:15px;font-weight:800;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:transparent;color:var(--ink)}
+  .res .title{font-size:21px;font-weight:900;margin-top:2px}
+  .res .msg{color:var(--mut);font-size:14.5px;margin-top:8px;line-height:1.5}
+  .stats{margin-top:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 6px}
+  .stats .n{font-size:21px;font-weight:900;color:var(--yellow)}
+  .stats .t{font-size:10px;color:var(--mut);margin-top:4px;line-height:1.3;text-transform:uppercase;letter-spacing:.5px}
+  .pos{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:left}
+  .pos h3{font-size:16.5px;font-weight:900;margin-bottom:4px}
+  .pos .antes{font-size:12.5px;color:var(--mut);margin-bottom:12px}
+  .pos .antes b{color:#d9e5dc}
+  .virada{margin-top:14px;border-radius:11px;padding:13px;font-size:14.5px;font-weight:700;line-height:1.45;animation:pop .25s ease}
+  .virada.win{background:#0f2e1a;border:1px solid var(--ok);color:#d9fbe7}
+  .virada.warn{background:#2a2307;border:1px solid var(--yellow);color:#fdf3c0}
+  .virada.same{background:#0e2c1b;border:1px solid var(--line);color:#d9e5dc}
+  .virada b{color:var(--yellow)}
+  .cta{display:grid;gap:10px;margin-top:20px}
+  .btn-share{padding:15px;font-size:16px;font-weight:900;border:none;border-radius:11px;cursor:pointer;background:var(--yellow);color:#071b10}
+  .btn-again{padding:13px;font-size:14.5px;font-weight:800;border:1px solid var(--line);border-radius:11px;cursor:pointer;background:transparent;color:var(--ink)}
+  .btn-edu2{padding:13px;font-size:14.5px;font-weight:800;border:1.5px dashed var(--line);border-radius:11px;cursor:pointer;background:transparent;color:var(--green2)}
   .hidden{display:none!important}
+  /* ---------- EDUCATIVA ---------- */
+  #edu{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;padding:22px 16px 70px}
+  #edu .inner{max-width:560px;margin:0 auto}
+  #edu h1{font-size:26px;font-weight:900;letter-spacing:-.5px}
+  #edu h1 b{color:var(--yellow)}
+  #edu .sub{color:var(--mut);font-size:13.5px;margin:6px 0 18px}
+  .bloco{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin-bottom:12px;animation:pop .25s ease}
+  .bloco .ano{display:inline-block;font-size:12px;font-weight:900;background:var(--green2);color:#071b10;border-radius:6px;padding:3px 8px;margin-bottom:10px}
+  .bloco h2{font-size:17.5px;font-weight:900;margin-bottom:6px;line-height:1.25}
+  .bloco p{font-size:14.5px;line-height:1.55;color:#dce8df}
+  .bloco p b{color:var(--yellow)}
+  .bloco .src{margin-top:10px;font-size:12px;color:var(--mut)}
+  .bloco .src a{color:var(--yellow);font-weight:700;text-decoration:none}
+  .btn-fechar{width:100%;margin-top:8px;padding:14px;font-size:16px;font-weight:900;background:var(--yellow);color:#071b10;border:none;border-radius:11px;cursor:pointer}
 </style>
 </head>
 <body>
+<div id="motto">🗳️ JÁ TE CALARAM POR 21 ANOS. NÃO SE CALE AGORA — VOTE 25/10.</div>
+
 <div class="wrap">
 
   <!-- ================= HOME ================= -->
@@ -142,9 +177,19 @@
     <div style="text-align:center"><span class="badge"><span class="dot"></span> Toda resposta tem fonte. Confira você mesmo.</span></div>
 
     <div class="card-home">
-      <label for="pname">Seu nome</label>
+      <label>🗳️ Antes de jogar: em quem você pretende votar no 2º turno?</label>
+      <div class="voto-chips" id="preChips">
+        <button class="chip" data-v="lula">LULA</button>
+        <button class="chip" data-v="flavio">FLÁVIO</button>
+        <button class="chip" data-v="branco">BRANCO</button>
+        <button class="chip" data-v="nulo">NULO</button>
+        <button class="chip wide" data-v="nao">NÃO VOU VOTAR</button>
+      </div>
+
+      <label style="margin-top:16px">👤 Seu nome</label>
       <input id="pname" maxlength="24" placeholder="Como te chamam?" autocomplete="off">
-      <button class="btn-main" id="btnStart">JOGAR AGORA</button>
+      <button class="btn-main" id="btnStart" disabled>JOGAR AGORA</button>
+      <button class="link-edu" id="btnEdu">📜 POR QUE VOTAR? (1 minuto)</button>
       <div class="modes">
         <span>💬 Quem disse?</span><span>⚡ Quem fez?</span><span>🎯 Desafio</span>
       </div>
@@ -161,7 +206,10 @@
   <!-- ================= GAME ================= -->
   <section id="game" class="hidden">
     <div class="top">
-      <div class="who">👤 <b id="pname2"></b></div>
+      <div>
+        <div class="who">👤 <b id="pname2"></b></div>
+        <div class="pre" id="preTag"></div>
+      </div>
       <div class="score">ACERTOS <b id="score">0</b></div>
     </div>
     <div class="prog"><i id="progBar"></i></div>
@@ -170,29 +218,98 @@
 
   <!-- ================= RESULT ================= -->
   <section id="result" class="hidden res">
-    <div class="big"><b id="rScore">0</b><span style="color:#666;font-size:.45em">/14</span></div>
+    <div class="big"><b id="rScore">0</b><span style="color:#3d5a47;font-size:.45em">/14</span></div>
     <div class="title" id="rTitle"></div>
     <div class="msg" id="rMsg"></div>
     <div class="stats">
       <div><div class="n" id="s1">0</div><div class="t">acertos</div></div>
-      <div class="n" style="display:none"></div>
-      <div><div class="n" id="s2">0</div><div class="t">pegadinhas do Flávio que caiu</div></div>
+      <div><div class="n" id="s2">0</div><div class="t">pegadinhas que caiu</div></div>
       <div><div class="n" id="s3">0</div><div class="t">erros</div></div>
     </div>
+
+    <div class="pos">
+      <h3>🗳️ E agora, depois de jogar — em quem você vai votar?</h3>
+      <div class="antes">Antes de jogar, você disse: <b id="antesTxt"></b></div>
+      <div class="voto-chips" id="postChips">
+        <button class="chip" data-v="lula">LULA</button>
+        <button class="chip" data-v="flavio">FLÁVIO</button>
+        <button class="chip" data-v="branco">BRANCO</button>
+        <button class="chip" data-v="nulo">NULO</button>
+        <button class="chip wide" data-v="nao">NÃO VOU VOTAR</button>
+      </div>
+      <div id="viradaSlot"></div>
+    </div>
+
     <div class="cta">
       <button class="btn-share" id="btnShare">📲 COMPARTILHAR RESULTADO</button>
       <button class="btn-again" id="btnAgain">🔁 JOGAR DE NOVO</button>
+      <button class="btn-edu2" id="btnEdu2">📜 POR QUE VOTAR? (1 minuto)</button>
     </div>
-    <div class="foot" style="margin-top:22px">
+    <div class="foot" style="margin-top:18px">
       Voto é no dia <b style="color:var(--yellow)">25 de outubro</b>.<br>
-      Lembra alguém que precisa jogar isso? Manda o link.
+      Lembra alguém na dúvida? Manda o jogo pra essa pessoa.
     </div>
   </section>
 </div>
 
+<!-- ================= EDUCATIVA ================= -->
+<section id="edu" class="hidden">
+  <div class="inner">
+    <h1>POR QUE <b>VOTAR</b>? 🗳️</h1>
+    <div class="sub">Um minuto de história pra não desperdiçar um direito que custou décadas.</div>
+
+    <div class="bloco">
+      <span class="ano">1927–1932</span>
+      <h2>Sua bisavó não podia votar</h2>
+      <p>Em 1927, a professora <b>Celina Guimarães</b> virou a primeira eleitora do Brasil (em Mossoró-RN). O voto feminino só foi garantido no país inteiro pelo <b>Código Eleitoral de 1932</b> (Decreto nº 21.076), depois de anos de luta liderada por <b>Bertha Lutz</b> e das sufragistas. Menos de 100 anos atrás — a maioria das mulheres brasileiras vivia sem voz política.</p>
+      <div class="src">Fonte: Tribunal Superior Eleitoral — <a href="https://www.tse.jus.br/comunicacao/noticias/2024/Fevereiro/justica-eleitoral-completa-92-anos-primeiro-codigo-eleitoral-garantiu-o-direito-ao-voto-as-mulheres" target="_blank" rel="noopener">Justiça Eleitoral e voto feminino no Brasil completam 92 anos ↗</a></div>
+    </div>
+
+    <div class="bloco">
+      <span class="ano">1934–1988</span>
+      <h2>Um direito conquistado em degraus</h2>
+      <p>A Constituição de 1934 ainda <b>restringia</b> o voto feminino (só para quem exercia função pública remunerada). A igualdade plena entre homens e mulheres nas urnas só veio em <b>1946</b>. E o voto de pessoas analfabetas, só na Constituição de <b>1988</b>. Cada degrau dessa escada foi disputado.</p>
+      <div class="src">Fonte: <a href="https://www.tse.jus.br/comunicacao/noticias/2023/Fevereiro/conquista-do-voto-feminino-completa-91-anos-nesta-sexta-24" target="_blank" rel="noopener">TSE — Conquista do voto feminino ↗</a></div>
+    </div>
+
+    <div class="bloco">
+      <span class="ano">1964–1985</span>
+      <h2>21 anos de ditadura</h2>
+      <p>Por <b>21 anos</b>, o Brasil viveu sem democracia plena: presidente escolhido <b>indiretamente</b>, direitos cassados, imprensa censurada, tortura e exílio. O movimento das <b>Diretas Já</b> (1983–84) encheu as ruas pedindo voto direto — e só em <b>1989</b> o país voltou a eleger presidente pelo voto popular (e o 2º turno daquela eleição já tinha Lula). O candidato de quem você não gosta passou; a ditadura, não — desde então, você decide.</p>
+      <div class="src">Fonte: <a href="https://pt.wikipedia.org/wiki/Ditadura_militar_no_Brasil_(1964%E2%80%931985)" target="_blank" rel="noopener">Ditadura militar no Brasil (1964–1985) ↗</a></div>
+    </div>
+
+    <div class="bloco">
+      <span class="ano">IMPORTANTE</span>
+      <h2>Branco e nulo NÃO são protesto</h2>
+      <p>Segundo o próprio TSE: voto branco <b>não vai para o vencedor</b>, voto nulo <b>não cancela a eleição</b> — os dois são simplesmente <b>descartados da contagem</b>. Ou seja: votar branco/nulo é deixar que os outros decidam por você. Se a intenção é protestar, o protesto que conta é o voto válido. E nem a ausência anula: quem não vota também entrega a decisão.</p>
+      <div class="src">Fonte: <a href="https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/votos-em-branco-ou-nulos-nao-sao-transferidos-para-o-vencedor-nem-cancelam-uma-eleicao" target="_blank" rel="noopener">TSE — Votos em branco ou nulos não são transferidos nem cancelam a eleição ↗</a></div>
+    </div>
+
+    <div class="bloco">
+      <span class="ano">2026</span>
+      <h2>25 de outubro</h2>
+      <p>O voto é <b>obrigatório</b> dos 18 aos 69 anos e facultativo aos 16–17, 70+ e para pessoas analfabetas. Leve documento com foto, vá cedo — e leve junto quem está na dúvida: mostra esse jogo no caminho. 🌳</p>
+    </div>
+
+    <button class="btn-fechar" id="btnEduClose">FECHAR E CONTINUAR ✖</button>
+  </div>
+</section>
+
 <script>
 /* =====================================================================
-   DECK — 100% verificado. Cada card: fonte, data e URL.
+   MOTTO — recado fixo do rodapé. Alternativas (é só trocar a linha):
+   1) "🗳️ JÁ TE CALARAM POR 21 ANOS. NÃO SE CALE AGORA — VOTE 25/10."
+   2) "QUEM NÃO VOTA, DEIXA OS OUTROS DECIDIREM POR VOCÊ — VOTE 25/10."
+   3) "A DEMOCRACIA NÃO SE HERDA, NEM SE PEDE — SE VOTA. 25/10"
+   ===================================================================== */
+const MOTTO = "🗳️ JÁ TE CALARAM POR 21 ANOS. NÃO SE CALE AGORA — VOTE 25/10.";
+document.getElementById('motto').textContent = MOTTO;
+
+const VOTO_LABEL = {lula:'LULA', flavio:'FLÁVIO', branco:'BRANCO', nulo:'NULO', nao:'NÃO VOU VOTAR'};
+
+/* =====================================================================
+   DECK — 100% verificado. Cada card: fonte, data e URL. (v2)
    t:'v' = versus (Flávio x Lula) | t:'q' = quiz (opções múltiplas)
    ===================================================================== */
 const DECK = [
@@ -270,7 +387,8 @@ const DECK = [
  exp:'Flávio Bolsonaro, no mesmo vídeo de agosto de 2026 — o lema “Deus, pátria e família” foi marca da ditadura de Vargas e da Marcha da Família de 1964.',
  src:'O Tempo, 24/08/2026', url:'https://www.otempo.com.br/eleicoes/2026/presidentes/2026/8/24/flavio-diz-que-vai-decretar-que-o-brasil-e-do-senhor-jesus-cristo'},
 {t:'v',cat:'frase',
- q:'Sobre o caso da “rachadinha” no seu antigo gabinete na Alerj, um candidato declarou: “Toda essa espuma, todo esse ataque para tentar destruir minha reputação… Sabe quantas ligações financeiras tenho com meus assessores? Zero.”.', a:'flavio',
+ q:'Sobre o caso da “rachadinha” no seu antigo gabinete na Alerj, um candidato declarou: “Toda essa espuma, todo esse ataque para tentar destruir minha reputação… Sabe quantas ligações financeiras tenho com meus assessores? Zero.”.',
+ a:'flavio',
  exp:'Flávio Bolsonaro sobre o caso da rachadinha (R$ 6,1 milhões desviados, segundo a denúncia do MP-RJ). O ex-assessor Fabrício Queiroz pagou 169 boletos de contas de Flávio — escola das filhas e plano de saúde — com dinheiro vivo (R$ 247 mil), apurou o MP. A denúncia contra Flávio foi arquivada em 2022 após o STF/STJ anularem as provas.',
  src:'Folha de S.Paulo, 07/04/2026 — e Valor, 01/09/2026', url:'https://www1.folha.uol.com.br/poder/2026/04/flavio-bolsonaro-chama-rachadinha-de-espuma-e-diz-que-queiroz-tinha-autonomia-em-gabinete.shtml'},
 {t:'v',cat:'frase',
@@ -291,7 +409,7 @@ const DECK = [
 {t:'v',cat:'frase',
  q:'Em plena crise do tarifaço de Trump contra o Brasil, em viagem a Washington, um candidato afirmou: “O Brasil vai ter um presidente da República que vai poder sentar de igual para igual para negociar com os Estados Unidos.”.',
  a:'flavio',
- exp:'Flávio Bolsonaro, antes de audiência no USTR (órgão de comércio dos EUA), em Washington — onde foi defender… a si mesmo, como candidato. Ele propôs ao governo Trump uma área de livre comércio EUA–Brasil e seguir o exemplo de Milei.',
+ exp:'Flávio Bolsonaro, antes de audiência no USTR (órgão de comércio dos EUA) — onde foi defender… a si mesmo, como candidato. Ele propôs ao governo Trump uma área de livre comércio EUA–Brasil e seguir o exemplo de Milei.',
  src:'O Globo, 07/07/2026 — e BBC News Brasil, 02/07/2026', url:'https://www.bbc.com/portuguese/articles/cz9l047qg3zo'},
 {t:'v',cat:'frase',
  q:'“Não se pode, simplesmente, estigmatizar as milícias (…). A milícia nada mais é do que um conjunto de policiais, militares ou não, buscando expurgar do seio da comunidade o que há de pior: os criminosos.”',
@@ -393,18 +511,35 @@ const DECK = [
 const ROUND = 14;
 const $ = id => document.getElementById(id);
 let state = null;
+let pre = null;      // declaração de voto antes
+let post = null;     // declaração de voto depois
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ---------- chips de voto (pré e pós) ---------- */
+function wireChips(boxId, onPick){
+  const box = $(boxId);
+  box.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+    if(c.disabled) return;
+    box.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
+    c.classList.add('sel');
+    onPick(c.dataset.v);
+  }));
+}
+wireChips('preChips', v=>{ pre=v; try{localStorage.setItem('qd_pre',v)}catch(e){} checkStart(); });
+wireChips('postChips', v=>{ post=v; onPost(); });
+
+function checkStart(){ $('btnStart').disabled = !(pre && ($('pname').value||'').trim()); }
 
 function startGame(){
   const name = ($('pname').value||'').trim() || 'Anônimo';
   try{localStorage.setItem('qd_name',name)}catch(e){}
-  // mistura equilibrada: ~60% frases, resto fatos/desafios, todos embaralhados
   const frases = shuffle(DECK.filter(c=>c.cat==='frase')).slice(0,7);
   const fatos  = shuffle(DECK.filter(c=>c.cat==='fato')).slice(0,5);
   const desaf  = shuffle(DECK.filter(c=>c.cat==='desafio')).slice(0,2);
   state = {name, deck: shuffle([...frases,...fatos,...desaf]), i:0, hits:0, miss:0, tricked:0};
   $('pname2').textContent = name;
+  $('preTag').textContent = 'voto declarado: ' + VOTO_LABEL[pre];
   $('home').classList.add('hidden'); $('result').classList.add('hidden');
   $('game').classList.remove('hidden');
   render();
@@ -434,17 +569,12 @@ function answer(btn,c){
   const isV = c.t==='v';
   const pick = isV ? btn.dataset.a : +btn.dataset.i;
   const right = isV ? pick===c.a : pick===c.a;
-  // estilo dos botões
   const btns = $('stage').querySelectorAll('.opt');
   btns.forEach(b=>{b.disabled=true; if(!(b===btn))b.classList.add('dim')});
   btn.classList.remove('dim');
   btn.classList.add(right?'correct':'wrong');
-  if(!right && isV){
-    const other=[...btns].find(b=>b.dataset.a===c.a); if(other){other.classList.remove('dim');other.classList.add('correct')}
-  }
-  if(!right && !isV){
-    const other=[...btns].find(b=>+b.dataset.i===c.a); if(other){other.classList.remove('dim');other.classList.add('correct')}
-  }
+  if(!right){ const other=[...btns].find(b=> isV ? b.dataset.a===c.a : +b.dataset.i===c.a);
+    if(other){other.classList.remove('dim');other.classList.add('correct')} }
   if(right) state.hits++; else {state.miss++; if(isV && c.a==='lula') state.tricked++;}
   $('score').textContent = state.hits;
   const who = isV ? (c.a==='lula'?'LULA':'FLÁVIO') : null;
@@ -479,8 +609,11 @@ function finish(){
   else if(h>=4){title='NÍVEL: CONVENCIDO PELA MÁQUINA 📺';msg=`${n}, o bombardeio de frases fora de contexto funcionou com você. A boa notícia: agora você sabe onde conferir.`}
   else{title='NÍVEL: PRECISA JOGAR MAIS 🔄';msg=`Calma, ${n}. Roda de novo — e desta vez clica em “ver fonte” em cada resposta.`}
   $('rTitle').textContent=title; $('rMsg').textContent=msg;
+  $('antesTxt').textContent = VOTO_LABEL[pre] || '—';
+  post = null;
+  $('postChips').querySelectorAll('.chip').forEach(c=>{c.classList.remove('sel');c.disabled=false});
+  $('viradaSlot').innerHTML = '';
   $('result').classList.remove('hidden');
-  // recorde local
   try{
     const best = +(localStorage.getItem('qd_best')||0);
     if(h>best) localStorage.setItem('qd_best',h);
@@ -488,19 +621,66 @@ function finish(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+/* ---------- declaração PÓS + virada ---------- */
+function onPost(){
+  $('postChips').querySelectorAll('.chip').forEach(c=>c.disabled=true);
+  try{localStorage.setItem('qd_post',post)}catch(e){}
+  const p = pre, q = post;
+  let cls='same', txt='';
+  if(q==='lula' && p!=='lula'){
+    cls='win';
+    txt = `🌳 Isso aqui virou voto: de <b>${VOTO_LABEL[p]}</b> para <b>LULA</b>. A informação mudou sua escolha — agora manda o jogo pra mais alguém na dúvida.`;
+  } else if(q==='lula' && p==='lula'){
+    cls='win';
+    txt = `🌳 Voto blindado antes e depois. Agora converte mais um(a): manda o jogo pro grupo da família, do trabalho, da igreja.`;
+  } else if(q==='branco' || q==='nulo'){
+    cls='warn';
+    txt = `⚠️ Lembra do que o <b>TSE</b> diz: voto ${q==='branco'?'branco':'nulo'} <b>não protesta nada</b> — não anula a eleição nem vai pro vencedor, só é descartado. Quem decide é quem vota válido. Você jogou esse jogo inteiro… não jogue fora o final.`;
+  } else if(q==='nao'){
+    cls='warn';
+    txt = `⚠️ Não votar também é deixar os outros decidirem por você. Sua bisavó não podia votar; quem viveu a ditadura não escolhia presidente. Você pode — e decide ficar de fora? A urna espera você em 25/10.`;
+  } else if(q==='flavio' && p!=='flavio'){
+    cls='same';
+    txt = `Você mudou para Flávio. Respeito é o nome do jogo — mas antes de firmar, volta e clica em “ver fonte” nos cards. Se as fontes segurarem sua decisão, decisão honrada é.`;
+  } else { // flavio -> flavio
+    cls='same';
+    txt = `Seguiu com Flávio do começo ao fim. Tudo bem — só não diga que ninguém te mostrou as fontes. 😉`;
+  }
+  $('viradaSlot').innerHTML = `<div class="virada ${cls}">${txt}</div>`;
+  $('viradaSlot').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ---------- share ---------- */
 function share(){
   const h=state?state.hits:0, n=state?state.name:'alguém';
-  const txt = `🏆 ${n} fez ${h}/${ROUND} no QUEM DISSE E QUEM FEZ? — Lula vs Flávio.\nCada resposta tem fonte. Quantas frases de Lula você confundiria com Flávio?\nJoga aí 👇`;
+  const virou = (post==='lula' && pre && pre!=='lula');
+  const txt = `🏆 ${n} fez ${h}/${ROUND} no QUEM DISSE E QUEM FEZ? — Lula vs Flávio.` +
+    (virou?`\nE mudou o voto: era ${VOTO_LABEL[pre]}, agora é LULA 🌳`:`\nCada resposta tem fonte. Quantas frases de Lula você confundiria com Flávio?`) +
+    `\nJoga aí 👇`;
   if(navigator.share){navigator.share({title:'QUEM DISSE E QUEM FEZ? — Lula vs Flávio',text:txt}).catch(()=>{})}
   else{
     navigator.clipboard?.writeText(txt).then(()=>alert('Texto copiado! Cole no seu grupo 😄')).catch(()=>alert(txt));
   }
 }
 
-/* boot */
+/* ---------- educativa ---------- */
+function openEdu(){$('edu').classList.remove('hidden');window.scrollTo(0,0)}
+function closeEdu(){$('edu').classList.add('hidden')}
+$('btnEdu').addEventListener('click',openEdu);
+$('btnEdu2').addEventListener('click',openEdu);
+$('btnEduClose').addEventListener('click',closeEdu);
+
+/* ---------- boot ---------- */
 $('btnStart').addEventListener('click',startGame);
-$('pname').addEventListener('keydown',e=>{if(e.key==='Enter')startGame()});
-$('btnAgain').addEventListener('click',()=>{$('result').classList.add('hidden');$('home').classList.remove('hidden');showRec()});
+$('pname').addEventListener('input',checkStart);
+$('pname').addEventListener('keydown',e=>{if(e.key==='Enter' && !$('btnStart').disabled)startGame()});
+$('btnAgain').addEventListener('click',()=>{
+  $('result').classList.add('hidden');
+  $('home').classList.remove('hidden');
+  pre=null; post=null;
+  $('preChips').querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));
+  $('btnStart').disabled=true; showRec();
+});
 $('btnShare').addEventListener('click',share);
 function showRec(){
   try{
@@ -509,7 +689,7 @@ function showRec(){
   }catch(e){}
 }
 try{$('pname').value = localStorage.getItem('qd_name')||''}catch(e){}
-showRec();
+checkStart(); showRec();
 /* service worker */
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 </script>

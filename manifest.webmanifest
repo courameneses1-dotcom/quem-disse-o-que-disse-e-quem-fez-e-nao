@@ -1,14 +1,14 @@
 {
   "name": "QUEM DISSE E QUEM FEZ? — Lula vs Flávio",
   "short_name": "QUEM FEZ?",
-  "description": "O jogo das frases e dos fatos do 2º turno de 2026. Quem disse? Quem fez? Cada resposta tem fonte — confira você mesmo.",
+  "description": "O jogo das frases e dos fatos do 2º turno de 2026. Quem disse? Quem fez? Declare seu voto antes e depois de jogar. Cada resposta tem fonte.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#141414",
-  "theme_color": "#141414",
+  "background_color": "#071b10",
+  "theme_color": "#071b10",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
