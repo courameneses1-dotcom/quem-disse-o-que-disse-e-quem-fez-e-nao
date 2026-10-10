@@ -15,7 +15,7 @@
     --yellow:#ffd100; --yellow2:#ffe14d;
     --green:#00b34a; --green2:#00d05e;
     --grey:#39434d; --grey2:#28313a;
-    --ok:#21c55d; --err:#e04141;
+    --ok:#21c55d; --err:#e04141; --purple:#9d4edd;
     --ink:#f2f7f0; --mut:#8fa596;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -29,7 +29,6 @@
     min-height:100dvh; padding-bottom:58px;
   }
   .wrap{width:100%;max-width:560px;padding:12px 14px 24px;display:flex;flex-direction:column;flex:1}
-  /* ---------- BANNER FIXO ---------- */
   #motto{
     position:fixed; left:0; right:0; bottom:0; z-index:50;
     background:var(--yellow); color:#071b10;
@@ -37,7 +36,7 @@
     padding:9px 10px calc(9px + env(safe-area-inset-bottom)); line-height:1.3;
     border-top:3px solid #071b10;
   }
-  /* ---------- HERO (arte) ---------- */
+  /* ---------- HERO ---------- */
   .hero{margin:4px 0 2px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.55))}
   .hero svg{width:100%;height:auto;display:block;border-radius:14px}
   .hero-legend{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 2px;
@@ -104,24 +103,36 @@
   .opt:active{transform:scale(.98)}
   .opt.flavio{background:linear-gradient(180deg,var(--grey),var(--grey2));color:#e8edf1}
   .opt.lula{background:linear-gradient(180deg,var(--yellow2),var(--yellow));color:#071b10}
-  .opt.small{font-size:15px;font-weight:700;background:#12331e;color:var(--ink);padding:13px}
+  .opt.small{font-size:15px;font-weight:700;background:#12331e;color:var(--ink);padding:13px;text-align:left}
   .opt[disabled]{cursor:default}
   .opt.dim{opacity:.35}
-  .opt.correct{outline:3px solid var(--ok);outline-offset:2px}
-  .opt.wrong{outline:3px solid var(--err);outline-offset:2px}
+  .opt.correct{background:linear-gradient(180deg,#2ee56b,#16a34a)!important;color:#04140a!important;outline:3px solid #0be36a;outline-offset:2px}
+  .opt.wrong{background:linear-gradient(180deg,#ff5f5f,#c62828)!important;color:#fff!important;outline:3px solid var(--err);outline-offset:2px}
+  .opt.fk{background:linear-gradient(180deg,#b266ff,#7b2fd4)!important;color:#fff!important;outline:3px solid var(--purple);outline-offset:2px}
   .fb{margin-top:14px;border-radius:14px;padding:16px 16px 14px;animation:pop .25s ease}
   .fb.ok{background:#0f2e1a;border:1px solid var(--ok)}
   .fb.no{background:#2e0f0f;border:1px solid var(--err)}
+  .fb.fkb{background:#241035;border:1px solid var(--purple)}
   .fb .verdict{font-size:15px;font-weight:900;letter-spacing:.5px}
-  .fb.ok .verdict{color:#4ade80}.fb.no .verdict{color:#ff6b6e}
+  .fb.ok .verdict{color:#4ade80}.fb.no .verdict{color:#ff6b6e}.fb.fkb .verdict{color:#c99aff}
   .fb .answer{font-size:19px;font-weight:900;margin:4px 0 6px}
   .fb .answer.lula{color:var(--yellow)} .fb .answer.flavio{color:#aab6bf}
   .fb p{font-size:15px;line-height:1.45;color:#e6eee8}
+  .fb .why{margin-top:8px;font-size:13.5px;line-height:1.45;color:#cfdcd2;background:rgba(0,0,0,.25);border-radius:9px;padding:9px 11px}
+  .fb .fkalert{margin-top:10px;font-size:12.5px;font-weight:800;color:#e6c7ff;letter-spacing:.3px}
   .fb .src{margin-top:10px;font-size:12.5px;color:var(--mut)}
   .fb .src a{color:var(--yellow);font-weight:700;text-decoration:none}
   .btn-next{margin-top:16px;width:100%;padding:13px;font-size:16px;font-weight:900;
     background:var(--yellow);color:#071b10;border:none;border-radius:11px;cursor:pointer}
   .btn-next:active{transform:scale(.98)}
+  /* ---------- CAVEIRA FAKE NEWS ---------- */
+  #skull{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
+    flex-direction:column;pointer-events:none;background:rgba(30,8,48,.55)}
+  #skull.show{display:flex}
+  #skull .bone{font-size:clamp(90px,30vw,150px);filter:drop-shadow(0 0 30px #9d4edd)}
+  #skull .txt{font-size:clamp(20px,6vw,28px);font-weight:900;color:#e9d5ff;letter-spacing:1px;text-align:center;padding:0 16px}
+  #skull.show .bone,#skull.show .txt{animation:evaporate 1.9s ease forwards}
+  @keyframes evaporate{0%{opacity:0;transform:scale(.55)}18%{opacity:1;transform:scale(1.1)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.28) translateY(-16px);filter:blur(6px)}}
   /* ---------- RESULT ---------- */
   .res{flex:1;display:flex;flex-direction:column;text-align:center}
   .res .big{font-size:clamp(48px,15vw,80px);font-weight:900;margin-top:12px}
@@ -132,9 +143,11 @@
   .stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 6px}
   .stats .n{font-size:21px;font-weight:900;color:var(--yellow)}
   .stats .t{font-size:10px;color:var(--mut);margin-top:4px;line-height:1.3;text-transform:uppercase;letter-spacing:.5px}
+  .btn-urna{width:100%;margin-top:20px;padding:16px;font-size:18px;font-weight:900;
+    background:linear-gradient(180deg,var(--yellow2),var(--yellow));color:#071b10;border:none;border-radius:12px;cursor:pointer}
   .pos{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:left}
   .pos h3{font-size:16.5px;font-weight:900;margin-bottom:4px}
-  .pos .antes{font-size:12.5px;color:var(--mut);margin-bottom:12px}
+  .pos .antes{font-size:12.5px;color:var(--mut);margin-bottom:4px}
   .pos .antes b{color:#d9e5dc}
   .virada{margin-top:14px;border-radius:11px;padding:13px;font-size:15px;font-weight:700;line-height:1.45;animation:pop .25s ease}
   .virada.win{background:#0f2e1a;border:1px solid var(--ok);color:#d9fbe7}
@@ -146,6 +159,45 @@
   .btn-again{padding:13px;font-size:14.5px;font-weight:800;border:1px solid var(--line);border-radius:11px;cursor:pointer;background:transparent;color:var(--ink)}
   .btn-edu2{padding:13px;font-size:14.5px;font-weight:800;border:1.5px dashed var(--line);border-radius:11px;cursor:pointer;background:transparent;color:var(--green2)}
   .hidden{display:none!important}
+  /* ---------- URNA SIMULADA ---------- */
+  #urnaScreen{flex:1;display:flex;flex-direction:column;align-items:center}
+  .urna-title{font-size:20px;font-weight:900;margin:6px 0 2px;text-align:center}
+  .urna-sub{color:var(--mut);font-size:13px;margin-bottom:14px;text-align:center}
+  .urna{
+    background:linear-gradient(180deg,#d7dbd2,#b9beb4);border-radius:16px;padding:14px;
+    width:100%;max-width:340px;border:3px solid #8b9188;box-shadow:0 14px 30px rgba(0,0,0,.5);
+    display:flex;gap:12px;
+  }
+  .u-tela{
+    flex:1;background:#eef4e4;border:2px solid #9aa392;border-radius:8px;padding:10px;
+    font-family:"Courier New",monospace;min-height:230px;display:flex;flex-direction:column;
+  }
+  .u-head{font-size:11px;font-weight:900;letter-spacing:1px;border-bottom:2px solid #2c4a22;padding-bottom:4px;margin-bottom:8px}
+  .u-cargo{font-size:12px;font-weight:900;margin-top:4px}
+  .u-numrow{display:flex;gap:6px;margin:8px 0}
+  .u-numbox{width:34px;height:44px;border:2px solid #2c4a22;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;background:#fff}
+  .u-dados{font-size:12.5px;line-height:1.5;font-weight:700}
+  .u-dados .nm{font-size:17px;font-weight:900}
+  .u-fim{font-size:44px;font-weight:900;letter-spacing:6px;color:#1c7a2e;text-align:center;margin-top:26px}
+  .u-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:158px}
+  .u-key{
+    height:44px;border-radius:8px;border:2px solid #7c8278;background:linear-gradient(180deg,#4b5148,#333830);
+    color:#fff;font-size:17px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .u-key:active{transform:scale(.95)}
+  .u-key.br{background:linear-gradient(180deg,#fff,#d8dbd2);color:#222;border-color:#999}
+  .u-key.co{background:linear-gradient(180deg,#f6b04a,#e08e1f);color:#3a2400;font-size:11px}
+  .u-key.cf{background:linear-gradient(180deg,#43b95c,#2c8f42);color:#04240c;font-size:11px}
+  .u-key.widek{grid-column:1/-1;height:38px;font-size:11px}
+  .urna-legenda{margin-top:10px;color:var(--mut);font-size:12px;text-align:center}
+  .urna-legenda b{color:var(--yellow)}
+  .skip-urna{margin-top:12px;background:none;border:none;color:var(--mut);font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer}
+  .logistica{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left}
+  .logistica h3{font-size:15.5px;font-weight:900;margin-bottom:10px}
+  .logistica li{font-size:13.5px;line-height:1.5;color:#dce8df;margin-left:18px;margin-bottom:6px}
+  .logistica li b{color:var(--yellow)}
+  .logistica .src{font-size:11.5px;color:var(--mut);margin-top:8px}
+  .logistica .src a{color:var(--yellow)}
   /* ---------- EDUCATIVA ---------- */
   #edu{position:fixed;inset:0;z-index:80;background:#071b10;overflow-y:auto;padding:22px 16px 70px}
   #edu .inner{max-width:560px;margin:0 auto}
@@ -164,6 +216,9 @@
 </head>
 <body>
 <div id="motto">🗳️ JÁ TE CALARAM POR 21 ANOS. NÃO SE CALE AGORA — VOTE 25/10.</div>
+
+<!-- caveira fake news -->
+<div id="skull"><div class="bone">💀</div><div class="txt">VOCÊ CAIU EM UMA FAKE NEWS</div></div>
 
 <div class="wrap">
 
@@ -187,7 +242,6 @@
           <polygon id="st" points="0,-6 1.8,-1.8 6,-1.8 2.6,1.2 3.8,5.4 0,2.8 -3.8,5.4 -2.6,1.2 -6,-1.8 -1.8,-1.8"/>
         </defs>
 
-        <!-- céu -->
         <rect width="400" height="470" fill="url(#ceu)"/>
         <g fill="#ffd100">
           <use href="#st" transform="translate(40,40) scale(1.1)" opacity=".9"/>
@@ -201,31 +255,25 @@
           <circle cx="390" cy="35" r="1.2" opacity=".6"/><circle cx="150" cy="18" r="1.4" opacity=".6"/>
         </g>
 
-        <!-- muro de tijolos quebrando -->
         <rect x="0" y="240" width="400" height="230" fill="url(#tijolo)"/>
         <rect x="0" y="240" width="400" height="230" fill="#02180b" opacity=".38"/>
         <path d="M56 240 L72 298 L52 336 L84 398 L62 470" stroke="#120c07" stroke-width="6" fill="none"/>
         <path d="M56 240 L72 298 L52 336 L84 398 L62 470" stroke="#000" stroke-width="2.5" fill="none" opacity=".6"/>
         <path d="M336 246 L322 300 L344 344 L318 402" stroke="#120c07" stroke-width="4" fill="none"/>
-        <!-- tijolos se soltando -->
         <g>
           <rect x="70" y="262" width="34" height="15" rx="2" fill="#584330" transform="rotate(24 70 262)"/>
           <rect x="306" y="330" width="30" height="14" rx="2" fill="#5f4a36" transform="rotate(-30 306 330)"/>
           <rect x="52" y="392" width="28" height="13" rx="2" fill="#4c3a29" transform="rotate(40 52 392)"/>
         </g>
 
-        <!-- povo pulando o muro (The Wall) -->
         <g stroke="#e6f6ec" stroke-width="5" stroke-linecap="round" fill="#e6f6ec" opacity=".95">
-          <!-- pulando -->
           <circle cx="252" cy="192" r="7.5"/>
           <path d="M252 201 L242 218 M252 201 L265 215 M242 218 L231 232 M242 218 L247 236 M265 215 L275 228 M265 215 L260 235" fill="none"/>
-          <!-- em pé no muro, braço erguido -->
           <circle cx="298" cy="196" r="7.5"/>
           <path d="M298 205 L298 226 M298 205 L309 220 M298 205 L288 218 M298 226 L291 243 M298 226 L305 243" fill="none"/>
           <circle cx="313" cy="202" r="3.4"/>
         </g>
 
-        <!-- BANDEIRA DOS EUA RASGADA (por baixo) -->
         <g transform="translate(22,26) rotate(-9)" opacity=".92">
           <path d="M0,0 L182,0 L182,114 L152,102 L158,86 L122,94 L130,72 L92,82 L100,58 L62,68 L68,42 L32,52 L38,20 L0,12 Z" fill="#f4f4f0"/>
           <g fill="#c0392b">
@@ -239,20 +287,16 @@
             <circle cx="10" cy="34" r="2.2"/><circle cx="28" cy="34" r="2.2"/><circle cx="46" cy="34" r="2.2"/><circle cx="64" cy="34" r="2.2"/>
             <circle cx="19" cy="46" r="2.2"/><circle cx="37" cy="46" r="2.2"/><circle cx="55" cy="46" r="2.2"/>
           </g>
-          <!-- pedaço se soltando -->
           <g transform="translate(150,116) rotate(16)">
             <rect x="0" y="0" width="34" height="7" fill="#c0392b"/><rect x="0" y="10" width="28" height="7" fill="#f4f4f0"/>
           </g>
         </g>
 
-        <!-- BANDEIRA DO BRASIL (por cima, ondulando) -->
         <g>
           <path d="M56,96 C140,68 260,68 344,96 L344,264 C260,292 140,292 56,264 Z" fill="url(#verdeBR)" stroke="#05140b" stroke-width="3"/>
           <path d="M200,86 L326,180 L200,274 L74,180 Z" fill="#ffd100" opacity=".96"/>
           <circle cx="200" cy="180" r="62" fill="#002776" stroke="#05140b" stroke-width="2"/>
-          <!-- faixa branca -->
           <path d="M146,206 Q200,148 254,168 L254,182 Q200,160 146,198 Z" fill="#fff"/>
-          <!-- estrelas brancas da esfera -->
           <g fill="#fff">
             <use href="#st" transform="translate(172,142) scale(.55)"/>
             <use href="#st" transform="translate(228,146) scale(.5)"/>
@@ -263,22 +307,18 @@
           </g>
         </g>
 
-        <!-- TÍTULO sobre a bandeira -->
         <g font-family="'Arial Black',Arial,sans-serif" font-weight="900" text-anchor="middle" letter-spacing="1">
           <text x="200" y="132" font-size="37" fill="#ffffff" stroke="#05140b" stroke-width="6" paint-order="stroke">QUEM <tspan fill="#ffd100">DISSE</tspan></text>
-          <!-- estrela vermelha com o E -->
           <use href="#st" transform="translate(112,201) scale(2.5)" fill="#d61317" stroke="#05140b" stroke-width=".7"/>
           <text x="112" y="209" font-size="21" fill="#ffffff" stroke="none">E</text>
           <text x="130" y="210" font-size="30" fill="#ffffff" stroke="#05140b" stroke-width="5" paint-order="stroke" text-anchor="start">QUEM <tspan fill="#ffd100">FEZ?</tspan></text>
         </g>
 
-        <!-- PIXO no muro -->
         <g font-family="'Arial Black',Arial,sans-serif" font-weight="900" text-anchor="middle" transform="rotate(-4 200 340)" letter-spacing=".5">
           <text x="200" y="326" font-size="27" fill="#ffd100" stroke="#08160d" stroke-width="6" paint-order="stroke">O BRASIL NÃO CABE</text>
           <text x="200" y="360" font-size="25" fill="#00d05e" stroke="#08160d" stroke-width="6" paint-order="stroke">NO QUINTAL DE NINGUÉM</text>
         </g>
 
-        <!-- chamas -->
         <g>
           <path d="M0,470 Q8,442 4,424 Q16,434 22,414 Q26,436 40,424 Q36,448 50,442 Q42,458 30,470 Z" fill="#ff7a00" opacity=".85"/>
           <path d="M8,470 Q12,450 10,438 Q18,446 24,432 Q26,450 34,444 Q30,458 22,470 Z" fill="#ffd100" opacity=".9"/>
@@ -286,7 +326,6 @@
           <path d="M392,470 Q388,450 390,438 Q382,446 376,432 Q374,450 366,444 Q370,458 378,470 Z" fill="#ffd100" opacity=".9"/>
         </g>
 
-        <!-- flora (canto direito) -->
         <g>
           <path d="M332,446 Q346,414 372,404" stroke="#00b34a" stroke-width="3.5" fill="none"/>
           <ellipse cx="340" cy="430" rx="9" ry="4.5" fill="#00d05e" transform="rotate(-35 340 430)"/>
@@ -296,7 +335,6 @@
           <circle cx="374" cy="402" r="2.6" fill="#ffd100"/>
         </g>
 
-        <!-- estátua da liberdade com bandeirinha do brasil -->
         <g fill="#cfe8d8" transform="translate(24,378)">
           <path d="M12,64 L17,26 Q21,16 25,26 L30,64 Z"/>
           <circle cx="21" cy="12" r="5"/>
@@ -306,7 +344,6 @@
           <rect x="39" y="-16.5" width="5" height="4" fill="#ffd100"/>
         </g>
 
-        <!-- águia careca sendo pisoteada pelo gavião -->
         <g transform="translate(78,398)">
           <path d="M0,20 Q12,4 26,10 Q40,0 54,10 Q68,4 78,20 Q62,15 54,24 Q40,17 26,24 Q12,15 0,20 Z" fill="#8b98a3"/>
           <circle cx="80" cy="14" r="4.5" fill="#b9c4cc"/>
@@ -320,7 +357,6 @@
           </g>
         </g>
 
-        <!-- punho erguido -->
         <g transform="translate(170,388)">
           <path d="M2,58 L2,26 Q2,18 10,18 L26,18 Q31,18 31,23 Q36,23 36,29 Q41,29 41,35 L41,42 Q41,50 34,50 L14,50 Q8,50 6,46 Z" fill="#dff3e4"/>
           <path d="M10,26 L26,26 M12,34 L30,34 M14,42 L32,42" stroke="#071b10" stroke-width="2"/>
@@ -347,7 +383,7 @@
       <button class="btn-main" id="btnStart" disabled>JOGAR AGORA</button>
       <button class="link-edu" id="btnEdu">📜 POR QUE VOTAR? (1 minuto)</button>
       <div class="modes">
-        <span>💬 Quem disse?</span><span>⚡ Quem fez?</span><span>🎯 Desafio</span>
+        <span>💬 Quem disse?</span><span>⚡ Quem fez?</span><span>🎯 Desafio 50/50</span>
       </div>
       <div class="rec hidden" id="rec"></div>
     </div>
@@ -379,20 +415,28 @@
     <div class="stats">
       <div><div class="n" id="s1">0</div><div class="t">acertos</div></div>
       <div><div class="n" id="s2">0</div><div class="t">pegadinhas que caiu</div></div>
-      <div><div class="n" id="s3">0</div><div class="t">erros</div></div>
+      <div><div class="n" id="s4">0</div><div class="t">fake news que engoliu</div></div>
     </div>
 
-    <div class="pos">
-      <h3>🗳️ E agora, depois de jogar — em quem você vai votar?</h3>
-      <div class="antes">Antes de jogar, você disse: <b id="antesTxt"></b></div>
-      <div class="voto-chips" id="postChips">
-        <button class="chip" data-v="lula">LULA</button>
-        <button class="chip" data-v="flavio">FLÁVIO</button>
-        <button class="chip" data-v="branco">BRANCO</button>
-        <button class="chip" data-v="nulo">NULO</button>
-        <button class="chip wide" data-v="nao">NÃO VOU VOTAR</button>
-      </div>
+    <button class="btn-urna" id="btnUrna">🗳️ AGORA VOTE NA URNA →</button>
+
+    <div class="pos hidden" id="posBox">
+      <h3>🗳️ Seu voto na urna</h3>
+      <div class="antes">Antes de jogar, você disse: <b id="antesTxt"></b> · Na urna: <b id="urnaTxt"></b></div>
       <div id="viradaSlot"></div>
+    </div>
+
+    <div class="logistica" id="logiBox">
+      <h3>📍 PRA VOTAR DE VERDADE — 25/10</h3>
+      <ul>
+        <li><b>Leve documento oficial com foto</b> (RG, CNH, passaporte ou e-título com foto). Não precisa levar o título.</li>
+        <li><b>Das 8h às 17h</b> (horário de Brasília).</li>
+        <li><b>Tem 70 anos ou mais?</b> Votar é facultativo — mas é seu direito. <b>Fila prioritária</b> pra 60+, gestantes, PcD e pessoas com criança de colo.</li>
+        <li><b>16 e 17 anos?</b> Também podem votar (facultativo).</li>
+        <li><b>Vai faltar?</b> Justifique no próprio dia pelo app <b>e-Título</b> — ou depois em qualquer cartório eleitoral.</li>
+        <li>Leve junto quem tá na dúvida: mostra esse jogo no caminho. 🌳</li>
+      </ul>
+      <div class="src">Fonte: <a href="https://www.tse.jus.br/eleitor" target="_blank" rel="noopener">TSE — Eleitor ↗</a></div>
     </div>
 
     <div class="cta">
@@ -401,9 +445,31 @@
       <button class="btn-edu2" id="btnEdu2">📜 POR QUE VOTAR? (1 minuto)</button>
     </div>
     <div class="foot" style="margin-top:18px">
-      Voto é no dia <b style="color:var(--yellow)">25 de outubro</b>.<br>
-      Conhece alguém na dúvida? Manda o jogo.
+      Voto é no dia <b style="color:var(--yellow)">25 de outubro</b>. Conhece alguém na dúvida? Manda o jogo.
     </div>
+  </section>
+
+  <!-- ================= URNA SIMULADA ================= -->
+  <section id="urnaScreen" class="hidden">
+    <div class="urna-title">🗳️ URNA ELETRÔNICA</div>
+    <div class="urna-sub">Chegou a hora. Digite o número do seu candidato — <b style="color:var(--yellow)">13 = Lula</b> · <b style="color:#aab6bf">22 = Flávio</b></div>
+    <div class="urna">
+      <div class="u-tela">
+        <div class="u-head">JUSTIÇA ELEITORAL<br>ELEIÇÕES 2026 · 2º TURNO</div>
+        <div class="u-cargo">PRESIDENTE</div>
+        <div class="u-numrow"><div class="u-numbox" id="un1"></div><div class="u-numbox" id="un2"></div></div>
+        <div class="u-dados" id="uDados">Digite o número do candidato.</div>
+      </div>
+      <div class="u-keys" id="uKeys">
+        <button class="u-key" data-k="1">1</button><button class="u-key" data-k="2">2</button><button class="u-key" data-k="3">3</button>
+        <button class="u-key" data-k="4">4</button><button class="u-key" data-k="5">5</button><button class="u-key" data-k="6">6</button>
+        <button class="u-key" data-k="7">7</button><button class="u-key" data-k="8">8</button><button class="u-key" data-k="9">9</button>
+        <button class="u-key br" data-k="B">BRANCO</button><button class="u-key" data-k="0">0</button><button class="u-key co" data-k="C">CORRIGE</button>
+        <button class="u-key cf widek" data-k="K">CONFIRMA</button>
+      </div>
+    </div>
+    <div class="urna-legenda">Número errado + CONFIRMA = <b>nulo</b> · BRANCO + CONFIRMA = <b>branco</b></div>
+    <button class="skip-urna" id="skipUrna">não quero votar nem na simulação 😕</button>
   </section>
 </div>
 
@@ -463,10 +529,33 @@ document.getElementById('motto').textContent = MOTTO;
 
 const VOTO_LABEL = {lula:'LULA', flavio:'FLÁVIO', branco:'BRANCO', nulo:'NULO', nao:'NÃO VOU VOTAR'};
 
+/* ===================== SONS (Web Audio, sem arquivos) ===================== */
+let AC = null;
+function audio(){ if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(AC && AC.state==='suspended') AC.resume(); return AC; }
+function tone(freq, dur, type, vol, when){
+  const ac = audio(); if(!ac) return;
+  const t = ac.currentTime + (when||0);
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type||'sine'; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol||.18, t+.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  o.connect(g); g.connect(ac.destination);
+  o.start(t); o.stop(t+dur+.05);
+}
+const SND = {
+  tecla(){ tone(1040,.07,'square',.14); },                 // bip de tecla da urna
+  acerto(){ tone(660,.09,'triangle',.2); tone(990,.14,'triangle',.2,.09); },
+  erro(){ tone(220,.12,'sawtooth',.16); tone(150,.2,'sawtooth',.14,.1); },
+  caveira(){ tone(180,.22,'square',.18); tone(139,.3,'square',.16,.05); },
+  fimurna(){ tone(880,.1,'square',.16); tone(880,.1,'square',.16,.16); }
+};
+window.addEventListener('pointerdown', ()=>audio(), {once:true});
+
 /* =====================================================================
-   DECK — 100% com fonte (veículo + data + link em FONTES.md). (v3)
-   Texto curto: quem quer detalhe, clica em "ver fonte".
-   t:'v' = Flávio x Lula | t:'q' = quiz (4 opções)
+   DECK — 100% com fonte. 50% "quem disse/fez" + 50% múltipla escolha.
+   Quiz: cada opção pode ter "why" (por que está errada) e "fk:true"
+   (é fake news documentada → caveira roxa).
    ===================================================================== */
 const DECK = [
 /* ---------- FRASES — LULA ---------- */
@@ -603,42 +692,177 @@ const DECK = [
  a:'flavio', exp:'Flávio ofereceu “parceria estratégica” nos minerais. As 21 exigências de Trump também queriam isso. E o Brasil tem a 2ª maior reserva do mundo.',
  src:'ICL Notícias, 18/09/2026', url:'https://grupoportaldenoticias.com.br/flavio-e-aliados-tem-propostas-que-coincidem-com-16-das-21-exigencias-de-trump-ao-brasil/'},
 
-/* ---------- DESAFIO ---------- */
+/* ---------- DESAFIO — MÚLTIPLA ESCOLHA (50% da rodada) ---------- */
 {t:'q',cat:'desafio',
- q:'Qual ex-presidente foi condenado a 27 anos e 3 meses de prisão por tentativa de golpe?',
- opts:['Fernando Henrique Cardoso','Jair Bolsonaro — pai do candidato Flávio','Michel Temer','Dilma Rousseff'], a:1,
- exp:'Jair Bolsonaro. Preso desde nov/2025 — depois de quebrar a tornozeleira eletrônica.',
- src:'G1, 11/09/2025', url:'https://g1.globo.com/politica/noticia/2025/09/11/primeira-turma-do-stf-condena-jair-bolsonaro-e-outros-sete-reus-por-golpe-de-estado.ghtml'},
+ q:'Qual destes políticos foi preso INJUSTAMENTE?',
+ opts:[
+  {x:'Flávio Bolsonaro', why:'Flávio nunca foi preso — nem pela rachadinha, nem pelos laços com milícia e banqueiro. Tem quem diga: injusto é ele estar solto, perto da presidência.'},
+  {x:'Lula', },
+  {x:'Michel Temer', why:'Temer chegou a ser preso preventivamente na Lava Jato (2019), mas nunca teve condenação anulada como Lula — que ficou 580 dias preso e o STF jogou tudo pra cima.'},
+  {x:'Jair Bolsonaro', why:'Jair está preso POR CULPA: condenado a 27 anos por golpe de Estado. Nada de injustiça aí.'}],
+ a:1,
+ exp:'Lula ficou 580 dias preso em Curitiba — e o STF anulou as condenações, devolvendo seus direitos. Voltou, foi eleito e é o atual presidente.',
+ src:'Senado Notícias, 05/10/2026', url:'https://www12.senado.leg.br/noticias/materias/2026/10/04/flavio-bolsonaro-e-lula-disputam-o-segundo-turno-das-eleicoes-para-presidente'},
 {t:'q',cat:'desafio',
- q:'Quantos brasileiros saíram da pobreza entre 2003 e 2014, segundo o Banco Mundial?',
- opts:['Cerca de 5 milhões','Cerca de 12 milhões','Cerca de 29 milhões','Nenhum — piorou'], a:2,
- exp:'29 milhões — mais que a população de Portugal. E a desigualdade caiu como nunca.',
- src:'Banco Mundial / FGV', url:'https://jornalgrandebahia.com.br/2017/11/banco-mundial-destaca-progresso-social-e-economico-do-brasil-alcancados-durante-os-governos-lula-e-rousseff-entre-2003-e-2013-26-milhoes-de-pessoas-sairam-da-pobreza/'},
+ q:'Qual destas é FAKE NEWS espalhada sobre Lula?',
+ opts:[
+  {x:'Que ele vai fechar as igrejas'},
+  {x:'Que ele criou o Dia da Marcha para Jesus', why:'Isso é FATO — decreto do governo Lula, citado na Carta ao Povo Evangélico.'},
+  {x:'Que ele assinou a Carta ao Povo Evangélico', why:'FATO — a carta existe, é pública e é de outubro de 2022.'},
+  {x:'Que ele é contra o aborto pessoalmente', why:'FATO — está escrito na carta: “sou pessoalmente contra o aborto”.'}],
+ a:0,
+ exp:'A própria Carta ao Povo Evangélico desmente: “mentiras passaram a ser usadas… como a de que vai fechar igrejas”. Lula criou até o Dia da Marcha para Jesus.',
+ src:'Carta ao Povo Evangélico, 19/10/2022', url:'https://lula.com.br/carta-compromisso-com-os-evangelicos/'},
+{t:'q',cat:'desafio',
+ q:'Sobre a campanha de 2026, qual boato contra Flávio era FAKE NEWS (sem nenhuma evidência)?',
+ opts:[
+  {x:'Que ele vai tirar Nossa Senhora Aparecida de padroeira'},
+  {x:'Que ele se encontrou com banqueiro preso', why:'FATO — o próprio Flávio admitiu o encontro com Vorcaro em prisão domiciliar.'},
+  {x:'Que ele é investigado no STF', why:'FATO — inquérito autorizado em julho/2026 (lavagem, corrupção).'},
+  {x:'Que ele pediu grana pro filme do pai', why:'FATO — áudios e mensagens da PF; Flávio confirmou que pediu.'}],
+ a:0,
+ exp:'A Folha checou: não há “quaisquer evidências sólidas” de que Flávio mexeria na padroeira. Repare no jogo: os outros três boatos “contra ele” são fatos checados — é assim que se separa fato de boato.',
+ src:'Folha, 29/09/2026', url:'https://www1.folha.uol.com.br/poder/2026/09/decretar-brasil-para-cristo-e-apenas-simbolico-diz-flavio-apos-polemica-de-nossa-senhora.shtml'},
+{t:'q',cat:'desafio',
+ q:'Qual destas afirmações sobre Lula e a fé é VERDADE?',
+ opts:[
+  {x:'Lula é ateu', fk:true, why:'FAKE NEWS: Lula é católico declarado — e diz que “Deus dirige meus passos” desde sempre. Quem espalhou isso na campanha deu corda ao boato.'},
+  {x:'Lula disse que a mão de Deus dirige os passos dele'},
+  {x:'Lula prometeu fechar igrejas', fk:true, why:'FAKE NEWS desmentida até pela carta que ele escreveu aos evangélicos.'},
+  {x:'Lula proibiu a Marcha para Jesus', why:'Mentira dupla: ele não proibiu — ele CRIOU o dia da Marcha por decreto.'}],
+ a:1,
+ exp:'“Se tem um brasileiro que não precisa provar que acredita em Deus, esse brasileiro sou eu”, disse Lula a pastores em 2022.',
+ src:'Folha, 09/09/2022', url:'https://www1.folha.uol.com.br/poder/2022/09/lula-diz-que-deus-guia-seus-passos-em-1o-encontro-de-campanha-com-lideres-evangelicos.shtml'},
+{t:'q',cat:'desafio',
+ q:'Segundo o MP, quem pagava as contas pessoais de Flávio com dinheiro vivo?',
+ opts:[
+  {x:'Ninguém', why:'O MP apurou o contrário: 169 boletos pagos em espécie.'},
+  {x:'Fabrício Queiroz, o operador da rachadinha'},
+  {x:'O partido dele', why:'Nada de partido: era dinheiro em espécie na conta do gabinete — escola das filhas e plano de saúde, apurou o MP.'},
+  {x:'Um padrinho empresário', why:'Não: o nome é Fabrício Queiroz — o mesmo da rachadinha. Flávio admitiu em 2020 que ele pagava suas contas.'}],
+ a:1,
+ exp:'169 boletos, R$ 247 mil em dinheiro vivo — escola das filhas e plano de saúde. Flávio chamou a investigação de “espuma”. A denúncia foi arquivada em 2022 (provas anuladas).',
+ src:'Folha, 07/04/2026 e Valor, 01/09/2026', url:'https://www1.folha.uol.com.br/poder/2026/04/flavio-bolsonaro-chama-rachadinha-de-espuma-e-diz-que-queiroz-tinha-autonomia-em-gabinete.shtml'},
+{t:'q',cat:'desafio',
+ q:'O que o TSE diz sobre o voto em branco?',
+ opts:[
+  {x:'Anula a eleição', why:'Mito. Só voto ANULADO PELA JUSTIÇA (fraude comprovada) pode gerar nova eleição — e não acontece desde 1996.'},
+  {x:'Vai para o candidato mais votado', why:'Mito clássico: branco não vai pra ninguém.'},
+  {x:'É simplesmente descartado da contagem'},
+  {x:'Funciona como protesto oficial', why:'O TSE é direto: a única “utilidade” do branco é registrar insatisfação — e nem isso muda o resultado.'}],
+ a:2,
+ exp:'Branco e nulo não cancelam a eleição nem vão pro vencedor: são excluídos da contagem. Quem decide é quem vota válido.',
+ src:'TSE, out/2022', url:'https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/votos-em-branco-ou-nulos-nao-sao-transferidos-para-o-vencedor-nem-cancelam-uma-eleicao'},
+{t:'q',cat:'desafio',
+ q:'Por quanto tempo Lula ficou preso em Curitiba?',
+ opts:[
+  {x:'30 dias', why:'Foram bem mais: 580 dias.'},
+  {x:'Quase 2 anos (580 dias)'},
+  {x:'10 anos', why:'Não chegou nem a 2 anos: foram 580 dias, de 2018 a 2019.'},
+  {x:'Ele nunca foi preso', why:'Foi: 7/4/2018 a 8/11/2019 — e depois o STF anulou as condenações.'}],
+ a:1,
+ exp:'580 dias preso em Curitiba — condenado pela Lava Jato. Depois, o STF anulou tudo (a vara não era competente e os vazamentos mostraram parcialidade) e Lula recuperou os direitos.',
+ src:'BBC / Senado Notícias, 2026', url:'https://www.tiosam.com/noticias/brasil/bolsonaro-e-mais-cinco-comecam-a-cumprir-pena-por-tentativa-de-golpe/'},
+{t:'q',cat:'desafio',
+ q:'Onde está hoje Jair Bolsonaro, pai do candidato Flávio?',
+ opts:[
+  {x:'Solto e candidatando-se', why:'Não: está condenado e inelegível até depois de cumprir a pena.'},
+  {x:'Cumprindo pena por tentativa de golpe', },
+  {x:'Exilado nos EUA', why:'Não — voltou dos EUA em 2023; hoje cumpre pena aqui (domiciliar, por saúde).'},
+  {x:'Morto', why:'Está vivo — só condenado: 27 anos e 3 meses por golpe de Estado.'}],
+ a:1,
+ exp:'Condenado a 27 anos e 3 meses por golpe de Estado e organização criminosa armada (STF, set/2025). Preso desde nov/2025; hoje em prisão domiciliar por motivos de saúde.',
+ src:'G1, 24/03/2026', url:'https://g1.globo.com/politica/noticia/2026/03/24/condenado-a-27-anos-e-3-meses-de-prisao-por-golpe-de-estado-bolsonaro-cumpriu-cerca-de-1percent-da-pena-na-cadeia.ghtml'},
+{t:'q',cat:'desafio',
+ q:'A quem Flávio deu a Medalha Tiradentes — a maior honraria da Alerj — em 2005?',
+ opts:[
+  {x:'A um professor emérito', why:'Não foi professor: foi um policial.'},
+  {x:'A um policial preso por suspeita de homicídio — que não pôde comparecer porque estava preso'},
+  {x:'A um médico do Rio', why:'Não: o homenageado era PM.'},
+  {x:'A um bombeiro herói', why:'Não: Adriano da Nóbrega, PM — preso por homicídio na data da medalha. Anos depois, apontado como chefe do Escritório do Crime.'}],
+ a:1,
+ exp:'Adriano da Nóbrega recebeu a Tiradentes preso. Depois virou chefe de milícia suspeita do assassinato de Marielle Franco. A mãe e a mulher dele trabalharam no gabinete de Flávio até 2018.',
+ src:'G1 (JN), 10/02/2020', url:'https://g1.globo.com/jornal-nacional/noticia/2020/02/10/ex-pm-era-suspeito-de-chefiar-grupo-que-cometeu-dezenas-de-homicidios.ghtml'},
+{t:'q',cat:'desafio',
+ q:'Quem ofereceu as terras raras do Brasil aos EUA na carta entregue a Trump?',
+ opts:[
+  {x:'Flávio Bolsonaro'},
+  {x:'Lula', why:'Lula fez o contrário: recusou as 21 exigências de Trump — que incluíam os minerais — e negociou pela diplomacia.'},
+  {x:'O Congresso', why:'Não: foi ato de campanha — documento de 86 páginas protocolado no órgão de comércio americano.'},
+  {x:'Ninguém ofereceu', why:'Ofereceram sim: “parceria estratégica” em minerais críticos, na carta ao governo Trump.'}],
+ a:0,
+ exp:'Flávio ofereceu “parceria estratégica” nos minerais — que batem com as exigências de Trump. O Brasil tem a 2ª maior reserva de terras raras do mundo.',
+ src:'ICL Notícias, 18/09/2026', url:'https://grupoportaldenoticias.com.br/flavio-e-aliados-tem-propostas-que-coincidem-com-16-das-21-exigencias-de-trump-ao-brasil/'},
+{t:'q',cat:'desafio',
+ q:'O que são as “terras raras” que EUA e China brigam pra controlar?',
+ opts:[
+  {x:'Plantação orgânica', why:'Nada de planta: são minerais.'},
+  {x:'Minerais que estão no seu celular, no carro elétrico e na energia limpa'},
+  {x:'Imposto sobre terra no interior', why:'Não é imposto — é riqueza no chão: minerais estratégicos.'},
+  {x:'Um aplicativo rural', why:'Não: sem elas seu celular nem vibra. É mineral — e o Brasil é dono da 2ª maior reserva do planeta.'}],
+ a:1,
+ exp:'As “vitaminas da tecnologia”: sem elas seu celular nem vibra. E o Brasil tem a 2ª maior reserva do mundo — por isso os EUA querem por a mão.',
+ src:'G1, 18/05/2026', url:'https://g1.globo.com/educacao/noticia/2026/05/18/o-que-sao-terras-raras-que-nao-sao-terras-nem-raras.ghtml'},
 {t:'q',cat:'desafio',
  q:'O filme de Jair Bolsonaro estrelado por ator de Hollywood foi pago com dinheiro de quem, segundo a PF?',
- opts:['Vaquinha dos fãs','Do banqueiro Vorcaro, dono do Banco Master','Lei Rouanet','Do partido PL'], a:1,
- exp:'Vorcaro — uns R$ 60 milhões, mandados via fundo nos EUA. Flávio cobrava os repasses em áudio.',
+ opts:[
+  {x:'Vaquinha dos fãs', why:'Não teve vaquinha: teve banqueiro.'},
+  {x:'Do banqueiro Vorcaro, dono do Banco Master'},
+  {x:'Lei Rouanet', why:'Nada de dinheiro público via Rouanet: foi grana privada de banqueiro — remetida via fundo nos EUA.'},
+  {x:'Do partido PL', why:'Não: o PF aponta Vorcaro como financiador, com ~R$ 60 milhões.'}],
+ a:1,
+ exp:'Vorcaro — uns R$ 60 milhões, mandados via fundo no Texas. Flávio cobrava os repasses em áudio. O banqueiro foi preso em nov/2025.',
  src:'G1, 12/09/2026', url:'https://g1.globo.com/politica/noticia/2026/09/12/pf-lista-serie-de-contatos-e-encontros-entre-flavio-bolsonaro-e-vorcaro-veja-cronologia.ghtml'},
 {t:'q',cat:'desafio',
- q:'Na “rachadinha” do gabinete de Flávio na Alerj, quanto o MP denunciou de desvio?',
- opts:['R$ 60 mil','R$ 6,1 milhões','R$ 500 mil','Não houve denúncia'], a:1,
- exp:'R$ 6,1 milhões. Detalhe honesto: a denúncia contra Flávio foi arquivada em 2022 — as provas foram anuladas.',
- src:'Valor, 01/09/2026', url:'https://valor.globo.com/politica/eleicoes-2026/noticia/2026/09/01/flavio-bolsonaro-relembre-o-processo-da-rachadinha.ghtml'},
-{t:'q',cat:'desafio',
  q:'No documento de 86 páginas, o que Flávio sugeriu aos EUA no lugar das tarifas “cegas”?',
- opts:['Nada — pediu fim total das tarifas','Doar vacinas','Punir autoridades brasileiras, tipo ministro do STF','Aumentar as tarifas'], a:2,
- exp:'Sanção e corte de visto pra autoridade brasileira. Com Trump contra o Brasil, ele escolheu o lado de lá.',
+ opts:[
+  {x:'Nada — pediu fim total das tarifas', why:'Não: ele pediu só o ADIAMENTO (pra depois da eleição) e sugeriu outra punição.'},
+  {x:'Doar vacinas ao Brasil', why:'Ninguém falou em vacina — falou em sanção contra autoridade brasileira.'},
+  {x:'Punir autoridades brasileiras, tipo ministro do STF'},
+  {x:'Aumentar as tarifas', why:'Ao contrário: pediu adiar as tarifas — e apontou quem punir do lado daqui.'}],
+ a:2,
+ exp:'Sanção financeira e corte de visto pra autoridade brasileira — modelo já usado contra ministros do STF. Com Trump pressionando o Brasil, ele escolheu o lado de lá.',
  src:'BBC, 02/07/2026', url:'https://www.bbc.com/portuguese/articles/cz9l047qg3zo'},
 {t:'q',cat:'desafio',
  q:'Quando o tarifaço de Trump bateu no Brasil, o que Lula fez?',
- opts:['Foi aos EUA pedir pra adiar as tarifas','Recusou as 21 exigências de Trump e negociou via diplomacia','Fechou a economia','Assinou tudo'], a:1,
- exp:'Lula disse não às 21 exigências — e mobilizou diplomacia, empresários e exportadores.',
+ opts:[
+  {x:'Foi aos EUA pedir pra adiar as tarifas', why:'Esse foi Flávio — que pediu adiamento pra depois da eleição. Lula não foi pedir nada.'},
+  {x:'Recusou as 21 exigências de Trump e negociou via diplomacia'},
+  {x:'Fechou a economia', why:'Não fechou nada: mobilizou diplomacia, empresários e exportadores.'},
+  {x:'Assinou tudo que os EUA pediram', why:'Ao contrário: chamou as 21 exigências de inaceitáveis.'}],
+ a:1,
+ exp:'Lula disse não às 21 condições americanas — e seguiu negociando com quatro rodadas de conversas, com empresários e exportadores do lado.',
  src:'Exame, jul/2026', url:'https://exame.com/brasil/flavio-bolsonaro-envia-documento-aos-eua-pedindo-o-adiamento-das-tarifas-contra-o-brasil/'},
 {t:'q',cat:'desafio',
- q:'O que são as “terras raras” que EUA e China brigam pra controlar?',
- opts:['Plantação orgânica','Minerais que estão no seu celular, no carro elétrico e na energia limpa','Imposto sobre terra no interior','Um aplicativo rural'], a:1,
- exp:'As “vitaminas da tecnologia”: sem elas seu celular nem vibra. E o Brasil tem a 2ª maior reserva do mundo — por isso os EUA querem por a mão.',
- src:'G1, 18/05/2026', url:'https://g1.globo.com/educacao/noticia/2026/05/18/o-que-sao-terras-raras-que-nao-sao-terras-nem-raras.ghtml'},
+ q:'Quantos brasileiros saíram da pobreza entre 2003 e 2014, segundo o Banco Mundial?',
+ opts:[
+  {x:'Cerca de 5 milhões', why:'Foi quase 6 vezes mais.'},
+  {x:'Cerca de 12 milhões', why:'Mais que o dobro disso.'},
+  {x:'Cerca de 29 milhões'},
+  {x:'Nenhum — piorou', why:'Piorou pra ninguém: foram 29 milhões de pessoas — mais que a população de Portugal.'}],
+ a:2,
+ exp:'29 milhões saíram da pobreza — e a desigualdade caiu como nunca (Gini de 58,1 pra 51,5).',
+ src:'Banco Mundial / FGV', url:'https://jornalgrandebahia.com.br/2017/11/banco-mundial-destaca-progresso-social-e-economico-do-brasil-alcancados-durante-os-governos-lula-e-rousseff-entre-2003-e-2013-26-milhoes-de-pessoas-sairam-da-pobreza/'},
+{t:'q',cat:'desafio',
+ q:'Por que Jair Bolsonaro foi condenado a 27 anos e 3 meses de prisão?',
+ opts:[
+  {x:'Por corrupção', why:'Não foi corrupção: foi pior — tentativa de golpe de Estado.'},
+  {x:'Por golpe de Estado — a primeira condenação do tipo na história do Brasil'},
+  {x:'Por mentir em campanha', why:'Mentir em campanha não dá 27 anos — dar golpe, sim.'},
+  {x:'Por desviar dinheiro do Pix', why:'Não: golpe de Estado, organização criminosa armada e mais três crimes — decidiu a 1ª Turma do STF.'}],
+ a:1,
+ exp:'Golpe de Estado, organização criminosa armada, tentativa de abolição violenta da democracia e mais dois crimes. Preso desde nov/2025 — depois de quebrar a tornozeleira.',
+ src:'G1, 11/09/2025', url:'https://g1.globo.com/politica/noticia/2025/09/11/primeira-turma-do-stf-condena-jair-bolsonaro-e-outros-sete-reus-por-golpe-de-estado.ghtml'},
+{t:'q',cat:'desafio',
+ q:'Na “rachadinha” do gabinete de Flávio na Alerj, quanto o MP denunciou de desvio?',
+ opts:[
+  {x:'R$ 60 mil', why:'Cem vezes mais.'},
+  {x:'R$ 6,1 milhões'},
+  {x:'R$ 500 mil', why:'Doze vezes mais que isso.'},
+  {x:'Não houve denúncia', why:'Houve sim — em 2020, contra Flávio e mais 16 pessoas. Arquivada em 2022 (provas anuladas).'}],
+ a:1,
+ exp:'R$ 6,1 milhões pagos a assessores “fantasmas”, com repasse ao operador Queiroz. Detalhe honesto: a denúncia contra Flávio foi arquivada em 2022 — provas anuladas.',
+ src:'Valor, 01/09/2026', url:'https://valor.globo.com/politica/eleicoes-2026/noticia/2026/09/01/flavio-bolsonaro-relembre-o-processo-da-rachadinha.ghtml'},
 ];
 
 /* ===================== ENGINE ===================== */
@@ -654,26 +878,26 @@ function wireChips(boxId, onPick){
   const box = $(boxId);
   box.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
     if(c.disabled) return;
+    SND.tecla();
     box.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
     c.classList.add('sel');
     onPick(c.dataset.v);
   }));
 }
 wireChips('preChips', v=>{ pre=v; try{localStorage.setItem('qd_pre',v)}catch(e){} checkStart(); });
-wireChips('postChips', v=>{ post=v; onPost(); });
 
 function checkStart(){ $('btnStart').disabled = !(pre && ($('pname').value||'').trim()); }
 
 function startGame(){
   const name = ($('pname').value||'').trim() || 'Anônimo';
   try{localStorage.setItem('qd_name',name)}catch(e){}
-  const frases = shuffle(DECK.filter(c=>c.cat==='frase')).slice(0,7);
-  const fatos  = shuffle(DECK.filter(c=>c.cat==='fato')).slice(0,5);
-  const desaf  = shuffle(DECK.filter(c=>c.cat==='desafio')).slice(0,2);
-  state = {name, deck: shuffle([...frases,...fatos,...desaf]), i:0, hits:0, miss:0, tricked:0};
+  /* 50/50: metade "quem disse/fez", metade múltipla escolha */
+  const v = shuffle(DECK.filter(c=>c.t==='v')).slice(0,7);
+  const q = shuffle(DECK.filter(c=>c.t==='q')).slice(0,7);
+  state = {name, deck: shuffle([...v,...q]), i:0, hits:0, miss:0, tricked:0, fakes:0};
   $('pname2').textContent = name;
   $('preTag').textContent = 'voto declarado: ' + VOTO_LABEL[pre];
-  $('home').classList.add('hidden'); $('result').classList.add('hidden');
+  $('home').classList.add('hidden'); $('result').classList.add('hidden'); $('urnaScreen').classList.add('hidden');
   $('game').classList.remove('hidden');
   render();
 }
@@ -691,11 +915,17 @@ function render(){
       <button class="opt flavio" data-a="flavio">FLÁVIO</button>
       <button class="opt lula" data-a="lula">LULA</button></div>`;
   } else {
-    html += `<div class="opts">` + c.opts.map((o,i)=>`<button class="opt small" data-i="${i}">${o}</button>`).join('') + `</div>`;
+    html += `<div class="opts">` + c.opts.map((o,i)=>`<button class="opt small" data-i="${i}">${o.x}</button>`).join('') + `</div>`;
   }
   html += `<div id="fbSlot"></div>`;
   const st = $('stage'); st.innerHTML = html;
   st.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(b,c)));
+}
+
+function showSkull(){
+  const s = $('skull');
+  s.classList.remove('show'); void s.offsetWidth; s.classList.add('show');
+  setTimeout(()=>s.classList.remove('show'), 1950);
 }
 
 function answer(btn,c){
@@ -705,20 +935,30 @@ function answer(btn,c){
   const btns = $('stage').querySelectorAll('.opt');
   btns.forEach(b=>{b.disabled=true; if(!(b===btn))b.classList.add('dim')});
   btn.classList.remove('dim');
-  btn.classList.add(right?'correct':'wrong');
+  let isFake = false, why = '';
+  if(!isV){
+    const op = c.opts[pick];
+    isFake = !!(op && op.fk && !right);
+    why = (op && op.why) ? op.why : '';
+  }
+  btn.classList.add(right ? 'correct' : (isFake ? 'fk' : 'wrong'));
   if(!right){ const other=[...btns].find(b=> isV ? b.dataset.a===c.a : +b.dataset.i===c.a);
     if(other){other.classList.remove('dim');other.classList.add('correct')} }
-  if(right) state.hits++; else {state.miss++; if(isV && c.a==='lula') state.tricked++;}
+  if(right){ state.hits++; SND.acerto(); }
+  else { state.miss++; if(isV && c.a==='lula') state.tricked++; if(isFake){ state.fakes++; SND.caveira(); showSkull(); } else SND.erro(); }
   $('score').textContent = state.hits;
   const who = isV ? (c.a==='lula'?'LULA':'FLÁVIO') : null;
-  $('fbSlot').innerHTML = `<div class="fb ${right?'ok':'no'}">
-      <div class="verdict">${right?'✅ ACERTOU!':'❌ ERROU — era outra pessoa'}</div>
+  const fbCls = isFake ? 'fkb' : (right ? 'ok' : 'no');
+  $('fbSlot').innerHTML = `<div class="fb ${fbCls}">
+      <div class="verdict">${right?'✅ ACERTOU!':(isFake?'💀 ERA FAKE NEWS':'❌ ERROU — era outra pessoa')}</div>
       ${who?`<div class="answer ${c.a}">FOI ${who}</div>`:''}
       <p>${c.exp}</p>
+      ${why?`<div class="why">🧐 Essa alternativa: ${why}</div>`:''}
+      ${isFake?`<div class="fkalert">🚫 Não compartilhe antes de checar. Não acredite em tudo que vê na internet.</div>`:''}
       <div class="src">🔎 <a href="${c.url}" target="_blank" rel="noopener">ver fonte ↗</a></div>
       <button class="btn-next" id="btnNext">${state.i===ROUND-1?'VER RESULTADO →':'PRÓXIMA →'}</button>
     </div>`;
-  $('btnNext').addEventListener('click',next);
+  $('btnNext').addEventListener('click',()=>{SND.tecla();next();});
   $('fbSlot').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
@@ -732,19 +972,19 @@ function next(){
 
 function finish(){
   $('game').classList.add('hidden');
-  const h = state.hits, m = state.miss, t = state.tricked, n = state.name;
+  const h = state.hits, t = state.tricked, f = state.fakes, n = state.name;
   $('rScore').textContent = h;
-  $('s1').textContent = h; $('s2').textContent = t; $('s3').textContent = m;
+  $('s1').textContent = h; $('s2').textContent = t; $('s4').textContent = f;
   let title,msg;
   if(h>=13){title='XERIFE DA FONTE 🔎';msg=`Imparável, ${n}! Você conhece essa eleição melhor que analista de TV.`}
   else if(h>=10){title='BEM INFORMADO(A) 💪';msg=`Mandou bem, ${n}! Mas ${t} fala(s) de Lula você jurou que era do Flávio.`}
-  else if(h>=7){title='SURPRESO(A) 😮';msg=`${t} pegadinhas — as frases de Deus e família te pegaram, né?`}
-  else if(h>=4){title='CONVENCIDO PELA MÁQUINA 📺';msg=`${n}, o bombardeio de frase fora de contexto funcionou. Agora você sabe onde conferir.`}
-  else{title='JOGA DE NOVO 🔄';msg=`Roda de novo, ${n} — e clica em “ver fonte” nas respostas.`}
+  else if(h>=7){title='SURPRESO(A) 😮';msg=`${t} pegadinhas e ${f} fake(s) engolidas — a máquina de boato trabalha duro em você.`}
+  else if(h>=4){title='CONVENCIDO PELA MÁQUINA 📺';msg=`${n}, ${f} fake(s) te pegaram. A boa notícia: agora você sabe checar.`}
+  else{title='JOGA DE NOVO 🔄';msg=`Roda de novo, ${n} — e desconfia de tudo até clicar em “ver fonte”.`}
   $('rTitle').textContent=title; $('rMsg').textContent=msg;
   $('antesTxt').textContent = VOTO_LABEL[pre] || '—';
   post = null;
-  $('postChips').querySelectorAll('.chip').forEach(c=>{c.classList.remove('sel');c.disabled=false});
+  $('posBox').classList.add('hidden');
   $('viradaSlot').innerHTML = '';
   $('result').classList.remove('hidden');
   try{
@@ -754,33 +994,102 @@ function finish(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function onPost(){
-  $('postChips').querySelectorAll('.chip').forEach(c=>c.disabled=true);
+/* ---------- URNA SIMULADA ---------- */
+const CAND = {
+  '13':{nome:'LULA', partido:'Partido dos Trabalhadores — PT', v:'lula'},
+  '22':{nome:'FLÁVIO BOLSONARO', partido:'Partido Liberal — PL', v:'flavio'}
+};
+let uDigits = [];
+let uDone = false;
+
+function urnaRender(){
+  $('un1').textContent = uDigits[0]||'';
+  $('un2').textContent = uDigits[1]||'';
+  const d = $('uDados');
+  if(uDigits.length<2){ d.innerHTML = uDigits.length===0?'Digite o número do candidato.':'Aperte o próximo número.'; return; }
+  const num = uDigits.join('');
+  const c = CAND[num];
+  d.innerHTML = c
+    ? `<span class="nm">Número: ${num}</span><br>Nome: <b>${c.nome}</b><br>Partido: ${c.partido}<br>Presidente`
+    : `<span class="nm">Número: ${num}</span><br><b>NÚMERO INVÁLIDO</b><br>Aperte CORRIGE ou CONFIRMA para anular.`;
+}
+
+function urnaKey(k){
+  if(uDone) return;
+  SND.tecla();
+  if(k==='C'){ uDigits=[]; urnaRender(); return; }
+  if(k==='B'){ uDigits=['','']; $('uDados').innerHTML='<b>VOTO BRANCO</b><br>Aperte CONFIRMA ou CORRIGE.'; return; }
+  if(k==='K'){ urnaConfirma(); return; }
+  if(uDigits.length>=2) return;
+  uDigits.push(k);
+  urnaRender();
+}
+
+function urnaConfirma(){
+  if(uDigits.length<2 && !$('uDados').textContent.includes('BRANCO')) return;
+  let voto;
+  const num = uDigits.join('');
+  const isBranco = $('uDados').textContent.includes('BRANCO');
+  if(isBranco) voto='branco';
+  else voto = (CAND[num] ? CAND[num].v : 'nulo');
+  uDone = true;
+  SND.fimurna();
+  $('uDados').innerHTML = `<div class="u-fim">FIM</div>`;
+  setTimeout(()=>{
+    post = voto;
+    try{localStorage.setItem('qd_post',post)}catch(e){}
+    $('urnaScreen').classList.add('hidden');
+    $('result').classList.remove('hidden');
+    $('urnaTxt').textContent = VOTO_LABEL[post];
+    $('posBox').classList.remove('hidden');
+    onPost();
+  }, 1400);
+}
+
+$('uKeys').querySelectorAll('.u-key').forEach(b=>b.addEventListener('click',()=>urnaKey(b.dataset.k)));
+$('btnUrna').addEventListener('click',()=>{
+  SND.tecla();
+  uDigits=[]; uDone=false; urnaRender();
+  $('result').classList.add('hidden');
+  $('urnaScreen').classList.remove('hidden');
+  window.scrollTo({top:0});
+});
+$('skipUrna').addEventListener('click',()=>{
+  SND.tecla();
+  post='nao';
   try{localStorage.setItem('qd_post',post)}catch(e){}
+  $('urnaScreen').classList.add('hidden');
+  $('result').classList.remove('hidden');
+  $('urnaTxt').textContent = VOTO_LABEL[post];
+  $('posBox').classList.remove('hidden');
+  onPost();
+});
+
+function onPost(){
   const p = pre, q = post;
   let cls='same', txt='';
   if(q==='lula' && p!=='lula'){
-    cls='win'; txt = `🌳 <b>Virou voto:</b> de ${VOTO_LABEL[p]} pra <b>LULA</b>. Manda o jogo pro próximo na dúvida.`;
+    cls='win'; txt = `🌳 <b>Virou voto:</b> de ${VOTO_LABEL[p]} pra <b>LULA (13)</b>. Manda o jogo pro próximo na dúvida.`;
   } else if(q==='lula' && p==='lula'){
-    cls='win'; txt = `🌳 Antes e depois: <b>LULA</b>. Agora converte mais um — manda pro grupo da família.`;
+    cls='win'; txt = `🌳 Antes e depois: <b>LULA (13)</b>. Agora converte mais um — manda pro grupo da família.`;
   } else if(q==='branco' || q==='nulo'){
     cls='warn'; txt = `⚠️ O <b>TSE</b> é claro: ${q==='branco'?'branco':'nulo'} não protesta nada — é jogado fora. Quem decide é quem vota certo.`;
   } else if(q==='nao'){
     cls='warn'; txt = `⚠️ Quem não vota, deixa os outros decidirem. Sua bisavó não podia votar — você pode. <b>25/10</b>.`;
   } else if(q==='flavio' && p!=='flavio'){
-    cls='same'; txt = `Respeito. Só clica em “ver fonte” antes de firmar essa.`;
+    cls='same'; txt = `Respeito. Só volta nas respostas e clica em “ver fonte” antes de firmar essa.`;
   } else {
     cls='same'; txt = `Seguiu com Flávio do começo ao fim. Só não diga que ninguém te mostrou as fontes. 😉`;
   }
   $('viradaSlot').innerHTML = `<div class="virada ${cls}">${txt}</div>`;
-  $('viradaSlot').scrollIntoView({behavior:'smooth',block:'nearest'});
+  $('posBox').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 function share(){
   const h=state?state.hits:0, n=state?state.name:'alguém';
   const virou = (post==='lula' && pre && pre!=='lula');
   const txt = `🏆 ${n} fez ${h}/${ROUND} no QUEM DISSE E QUEM FEZ? — Lula vs Flávio.` +
-    (virou?`\nE mudou o voto: era ${VOTO_LABEL[pre]}, agora é LULA 🌳`:`\nQuantas frases de Lula você confundiria com Flávio?`) +
+    (virou?`\nE votou 13 depois de jogar 🌳`:`\nQuantas frases de Lula você confundiria com Flávio? Quantas fake news te pegariam?`) +
     `\nJoga aí 👇`;
   if(navigator.share){navigator.share({title:'QUEM DISSE E QUEM FEZ? — Lula vs Flávio',text:txt}).catch(()=>{})}
   else{
@@ -790,21 +1099,22 @@ function share(){
 
 function openEdu(){$('edu').classList.remove('hidden');window.scrollTo(0,0)}
 function closeEdu(){$('edu').classList.add('hidden')}
-$('btnEdu').addEventListener('click',openEdu);
-$('btnEdu2').addEventListener('click',openEdu);
-$('btnEduClose').addEventListener('click',closeEdu);
+$('btnEdu').addEventListener('click',()=>{SND.tecla();openEdu();});
+$('btnEdu2').addEventListener('click',()=>{SND.tecla();openEdu();});
+$('btnEduClose').addEventListener('click',()=>{SND.tecla();closeEdu();});
 
-$('btnStart').addEventListener('click',startGame);
+$('btnStart').addEventListener('click',()=>{SND.tecla();startGame();});
 $('pname').addEventListener('input',checkStart);
 $('pname').addEventListener('keydown',e=>{if(e.key==='Enter' && !$('btnStart').disabled)startGame()});
 $('btnAgain').addEventListener('click',()=>{
+  SND.tecla();
   $('result').classList.add('hidden');
   $('home').classList.remove('hidden');
   pre=null; post=null;
   $('preChips').querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));
   $('btnStart').disabled=true; showRec();
 });
-$('btnShare').addEventListener('click',share);
+$('btnShare').addEventListener('click',()=>{SND.tecla();share();});
 function showRec(){
   try{
     const best=+(localStorage.getItem('qd_best')||0);
