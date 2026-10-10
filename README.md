@@ -8,23 +8,30 @@ Repositório completo do projeto **"QUEM DISSE E QUEM FEZ? — Lula vs Flávio"*
 - 📦 **Repositório**: https://github.com/courameneses1-dotcom/quem-disse-o-que-disse-e-quem-fez-e-nao
 - O app publicado vem da branch `gh-pages` (espelho de `outputs/app`). Para atualizar o site após mudar o app: `git push origin main` e depois `git subtree push --prefix=outputs/app origin gh-pages`.
 
-## Estrutura
+## Estrutura — markdowns de INPUT e OUTPUT separados
 
 ```
 quem-disse-o-que-disse-e-quem-fez-e-nao/
-├── inputs/                      # TUDO o que foi pedido pelo usuário na conversa
-│   ├── 01-brief-original.md     # pedido original transcrito + acordos editoriais
-│   └── 02-revisoes.md           # revisões pedidas ao longo das iterações
-├── outputs/                     # TUDO o que foi produzido
-│   ├── app/                     # O APP (PWA — navegador, Android, iOS)
-│   │   ├── index.html           # aplicação completa, sem dependências
-│   │   ├── manifest.webmanifest # instalação como app
-│   │   ├── sw.js                # funcionamento offline
-│   │   ├── FONTES.md            # todas as fontes do deck
+│
+├── inputs/                                  # 📥 O QUE FOI PEDIDO (um .md por pedido)
+│   ├── 01-brief-original.md                 # pedido original + acordos editoriais
+│   ├── 02-revisao-nome-e-contexto.md        # R2: nome do jogo + contexto Vorcaro
+│   ├── 03-revisao-arte-hero-e-textos.md     # R3: hero/bandeira/muro + linguagem do povo + terras raras
+│   ├── 04-revisao-gamificacao-urna-fake-news.md  # R4: sons, 50/50, caveira, urna, anti-abstenção
+│   └── 05-feedback-arte.md                  # feedback: arte reprovada + caminhos pra v5
+│
+├── outputs/                                 # 📤 O QUE FOI PRODUZIDO
+│   ├── RELATORIO.md                         # síntese: pedidos → entregas → decisões
+│   ├── FONTES.md                            # TODAS as fontes (mestra)
+│   ├── app/                                 # O APP (PWA — navegador, Android, iOS)
+│   │   ├── index.html                       # aplicação completa, sem dependências
+│   │   ├── manifest.webmanifest             # instalação como app
+│   │   ├── sw.js                            # funcionamento offline
+│   │   ├── FONTES.md                        # cópia de trabalho (o rodapé do app linka pra cá)
 │   │   └── icons/
-│   ├── testes/                  # screenshots das validações
-│   └── RELATORIO.md             # síntese da conversa: pedidos → entregas
-├── README.md                    # este arquivo
+│   └── testes/                              # screenshots das validações (v1→v4)
+│
+├── README.md                                # este arquivo
 └── .gitignore
 ```
 
